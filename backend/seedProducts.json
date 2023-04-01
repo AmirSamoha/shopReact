@@ -1,0 +1,145 @@
+[
+    {
+      "name": "Elegant button-down shirt",
+      "slug": "elegant-button-down-shirt",
+      "category": "Shirts",
+      "image": "/images/p1.jpg",
+      "price": 120,
+      "countInStock": 2,
+      "brand": "Mania",
+      "rating": 3,
+      "gander": "men",
+      "numReviews": 31,
+      "description": "a high quality Elegant button-down shirt"
+    
+    },
+    {
+      "name": "Elegant Slim shirt",
+      "slug": "elegant-slim-shirt",
+      "category": "Shirts",
+      "image": "/images/p2.jpg",
+      "price": 99,
+      "countInStock": 10,
+      "brand": "Mania",
+      "rating": 3.5,
+      "gander": "men",
+      "numReviews": 17,
+      "description": "a high quality elegant shirt"
+  
+    },
+    {
+      "name": "Elegant Pant white",
+      "slug": "elegant-pant-white",
+      "category": "Pants",
+      "image": "/images/p3.jpg",
+      "price": 25,
+      "countInStock": 15,
+      "brand": "Mania",
+      "rating": 4,
+      "gander": "men",
+      "numReviews": 22,
+      "description": "a high quality Elegant pants"
+    
+    },
+    {
+      "name": "Elegant Pant gray",
+      "slug": "elegant-pant-gray",
+      "category": "Pants",
+      "image": "/images/p4.jpg",
+      "price": 65,
+      "countInStock": 0,
+      "brand": "Puma",
+      "rating": 5,
+      "gander": "men",
+      "numReviews": 30,
+      "description": "a high quality adidas pants"
+
+    },
+    
+    {
+      "name": "Nirvana T-shirt",
+      "slug": "nirvana-t-shirt",
+      "category": "Shirt",
+      "image": "/images/p5.jpg",
+      "price": 14,
+      "countInStock": 15,
+      "brand": "Nirvana",
+      "rating": 2,
+      "gander": "men",
+      "numReviews": 22,
+      "description": "a high quality T-shirt"
+    
+    },
+    {
+      "name": "Swetear",
+      "slug": "swetear",
+      "category": "Shirt",
+      "image": "/images/p6.jpg",
+      "price": 89,
+      "countInStock": 0,
+      "brand": "Puma",
+      "rating": 5,
+      "gander": "women",
+      "numReviews": 26,
+      "description": "a high quality Puma Swetear"
+  
+    },
+    
+    {
+      "name": "Style Women Pant",
+      "slug": "style-women-pant",
+      "category": "Pants",
+      "image": "/images/p7.jpg",
+      "price": 25,
+      "countInStock": 2,
+      "brand": "Style",
+      "rating": 2.5,
+      "gander": "women Pant",
+      "numReviews": 22,
+      "description": "a high quality Style Women Pant"
+    
+    },
+    {
+      "name": "Jeans Slim Pant",
+      "slug": "Jeans-slim-Pant",
+      "category": "Pants",
+      "image": "/images/p8.jpg",
+      "price": 65,
+      "countInStock": 0,
+      "brand": "mania",
+      "rating": 5,
+      "gander": "women",
+      "numReviews": 9,
+      "description": "a high quality Jeans Slim Pant"
+    
+    },
+  
+    {
+      "name": "Regrets T-shirt",
+      "slug": "regrets-t-shirt",
+      "category": "Shirt",
+      "image": "/images/p9.jpg",
+      "price": 23,
+      "countInStock": 8,
+      "brand": "Regrets",
+      "rating": 4,
+      "gander": "women",
+      "numReviews": 22,
+      "description": "a high quality Regrets T-shirt"
+    
+    },
+    {
+      "name": "Elegant shoes",
+      "slug": "elegant-shoes",
+      "category": "Shoes",
+      "image": "/images/p10.jpg",
+      "price": 79,
+      "countInStock": 0,
+      "brand": "Mania",
+      "rating": 4.5,
+      "gander": "men",
+      "numReviews": 7,
+      "description": "a high quality Elegant shoes"
+  
+    }
+]
