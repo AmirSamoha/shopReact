@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import data from "./data.js";
 import productRouter from "./Routes/ProductRoutes.js";
+import seedRouter from "./Routes/seedRoutes.js";
 
 //בקשה לייבא את כל המוצרים 
 const app = express();
@@ -21,7 +22,9 @@ mongoose
 // app.get("/api/products", (req, res) => {
 //   res.send(data.products);
 // });
-app.use('/api/products', productRouter)
+app.use('/api/products', productRouter) 
+
+app.use('/api/seed', seedRouter)
 
 // //בקשה ליבוא מוצר אחד לדף שלנו productScreen
 // app.get("/api/products/:slug", (req, res) => {

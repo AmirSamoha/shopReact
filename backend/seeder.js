@@ -16,7 +16,7 @@ mongoose
         console.log(err.message);
     });
 
-const products = JSON.parse(
+const products = JSON.parse( // להמיר את הקובץ שיש בו מחרוזות לקובץ גייסון
     fs.readFileSync('./seedProducts.json', "utf-8") //.הקובץ אשר יכיל את כל הפרטים של המוצרים בJSON
 );
 
