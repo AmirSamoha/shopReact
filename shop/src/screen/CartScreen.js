@@ -10,9 +10,7 @@ const CartScreen = () => {
 
   //נייבא את המידע מהסטור
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const {
-    cart: { cartItems },
-  } = state;
+  const { cart: { cartItems },} = state;
 
   //פונקציה לעידכון את כמות המוצרים בעגלה על ידי כפתורי הפלוס ומינוס
   const updateCart = async  (item, quantity) => {

@@ -38,11 +38,11 @@ const addToCart = async() => {
     <Card>
       <span className="indexOfProduct">{`#${indexOfProduct + 1}`}</span>
       <div className="product" key={product.slug}>
-        <Link className="link" to={`products/product/${product.slug}`}>
+        <Link className="link" to={`/product/${product.slug}`}>
           <img src={product.image} alt="error-img" className="card-img-top" />
         </Link>
         <Card.Body>
-          <Link className="link" to={`products/product/${product.slug}`}>
+          <Link className="link" to={`/product/${product.slug}`}>
             <Card.Title>{product.name}</Card.Title>
           </Link>
           <Rating rating={product.rating} numReviews={product.numReviews} />

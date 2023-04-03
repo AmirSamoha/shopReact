@@ -19,7 +19,7 @@ function App() {
           <Container>
             {/* for single app apliccation  we use Routes*/}
             <Routes>
-              <Route path="products/product/:slug" element={<ProductScreen />} />
+              <Route path="/product/:slug" element={<ProductScreen />} />
               <Route path="/cart" element={<CartScreen />} />
               <Route path="/signin" element={<SinginScreen/>} />
               <Route path="/" element={<HomeScreen />} />
