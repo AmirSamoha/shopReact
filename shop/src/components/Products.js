@@ -15,7 +15,7 @@ export const Products = (props) => {
 const {state, dispatch: ctxDispatch } = useContext(Store);
 const { cart } = state;
 
-const addToCart = async() => {
+const addToCart = async(product) => {
     const existInCart = cart.cartItems.find((item) => item._id === product._id); //נבדוק האם המוצר שהוספנו כבר קיים בעגלה
 
     const quantity = existInCart ? existInCart.quantity + 1 : 1; //  אם המוצר כבר קיים בעגלה נעלה את כמות אותו המוצר בעגלה אם המוצר לא קיים יופיע 1
@@ -63,7 +63,7 @@ const addToCart = async() => {
             )}
           </Card.Text>
           {product.countInStock === 0 ? (<Button variant="danger" disabled> Out Of Stock</Button>) : 
-          <Button bg="dark" onClick={addToCart}>Add To card</Button>}
+          <Button bg="dark" onClick={() => addToCart(product)}>Add To card</Button>}
         </Card.Body>
       </div>
     </Card>

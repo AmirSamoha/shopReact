@@ -39,7 +39,7 @@ function ProductScreen() {
     const fetchData = async () => {
       dispatch({ type: "FETCH_REQUEST" });
       try {
-        const result = await axios.get(`/api/products/product/${slug}`);
+        const result = await axios.get(`/api/products/${slug}`);
         dispatch({ type: "FETCH_SUCCESS", payload: result.data });
       } catch (err) {
         dispatch({
@@ -59,22 +59,21 @@ const {state, dispatch: ctxDispatch } = useContext(Store);
 const { cart } = state;
 
 const addToCart = async() => {
-    const existInCart = cart.cartItems.find((item) => item._id === product._id); //נבדוק האם המוצר שהוספנו כבר קיים בעגלה
+  const existInCart = cart.cartItems.find((item) => item._id === product._id); //נבדוק האם המוצר שהוספנו כבר קיים בעגלה
 
-    const quantity = existInCart ? existInCart.quantity + 1 : 1; //  אם המוצר כבר קיים בעגלה נעלה את כמות אותו המוצר בעגלה אם המוצר לא קיים יופיע 1
+  const quantity = existInCart ? existInCart.quantity + 1 : 1; //  אם המוצר כבר קיים בעגלה נעלה את כמות אותו המוצר בעגלה אם המוצר לא קיים יופיע 1
 
-    const { data } = await axios.get(`/api/products/product/${product._id}`);
+  const { data } = await axios.get(`/api/products/product/${product._id}`);
+  
+  if (data.countInStock < quantity) { // תנאי: האם הכמות שבמלאי קטנה מהכמות שנבחרה לעגלה לא מתאפשר  כי נעבור את כמות המוצרים שקיימים במלאי 
+    window.alert(`We have only ${data.countInStock} units in stock`);
+    return;
+  }
 
-    if (data.countInStock < quantity) { // תנאי: האם הכמות שבמלאי קטנה מהכמות שנבחרה לעגלה לא מתאפשר  כי נעבור את כמות המוצרים שקיימים במלאי 
-      window.alert(`We have only ${data.countInStock} units in stock`);
-      return;
-    }
-
-    ctxDispatch({
-      type: "CART_ADD_ITEM",
-      payload: {...product, quantity: quantity}, // פרמטר זה יקבל את המוצר וכמות המוצר
-    });
-
+  ctxDispatch({
+    type: "CART_ADD_ITEM",
+    payload: {...product, quantity: quantity}, // פרמטר זה יקבל את המוצר וכמות המוצר
+  });
 };
 
   return loading ? (

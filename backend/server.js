@@ -6,8 +6,8 @@ import productRouter from "./Routes/ProductRoutes.js";
 import seedRouter from "./Routes/seedRoutes.js";
 import userRouter from "./Routes/userRoutes.js";
 
-//בקשה לייבא את כל המוצרים 
-const app = express();
+
+
 dotenv.config();
 
 mongoose
@@ -23,8 +23,10 @@ mongoose
 // app.get("/api/products", (req, res) => {
 //   res.send(data.products);
 // });
+const app = express();
 
-app.use(express.json()); // המרת הקבצים לגייסון
+// המרת הקבצים לגייסון
+app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
 
 
@@ -37,7 +39,7 @@ app.use('/api/users', userRouter);
 
 
 
-// //בקשה ליבוא מוצר אחד לדף שלנו productScreen
+// //בקשה לייבא מוצר אחד לדף שלנו productScreen
 // app.get("/api/products/:slug", (req, res) => {
 //   const product = data.products.find(x => x.slug === req.params.slug)
 //   if (product) {

@@ -9,7 +9,7 @@ productRouter.get('/', async (req,res) => {
 });
 
 //בקשה ליבוא מוצר אחד לדף שלנו productScreen
-productRouter.get("/product/:slug", async (req, res) => {
+productRouter.get("/:slug", async (req, res) => {
     const product = await Product.findOne({slug: req.params.slug} )
     if (product) {
       res.send(product);
@@ -28,5 +28,6 @@ productRouter.get("/product/:id", async (req, res) => {
     }
   
 });
+
 
 export default productRouter;

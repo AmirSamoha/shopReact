@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { Store } from "../Store";
 import { Col, ListGroup, Row, Button,Card } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-// import axios from "axios";
+import axios from "axios";
 
 const CartScreen = () => {
   const navigate = useNavigate();
