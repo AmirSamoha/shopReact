@@ -4,7 +4,14 @@ export const Store = createContext();
 
 
 //מצב התחלתי עגלה ריקה 
-const initialState = {cart: {cartItems: localStorage.getItem('cartItems') ? //נבדוק אם נשמר לנו בלוקל מידע אם כן נחזיר אותו אם לא נחזור למצב התחלתי עגלה ריקה
+const initialState = {
+  //user initialState
+  userInfo: localStorage.getItem('userInfo') ?  // נבדוק האם נמצא משתמש קיים בלוקל סטורץ
+  JSON.parse(localStorage.getItem('userInfo')) : // אם קיים משתמש נמיר את המידע שיש על המשתמש לקובץ גייסון
+  null, // אם לא נתחיל מצב התחלתי של מידע על המשתמש במצב ריק
+  
+  //cart initialState
+  cart: {cartItems: localStorage.getItem('cartItems') ? //נבדוק אם נשמר לנו בלוקל מידע אם כן נחזיר אותו אם לא נחזור למצב התחלתי עגלה ריקה
   JSON.parse(localStorage.getItem('cartItems')) :
   [], },};
 
@@ -25,6 +32,12 @@ const reducer = (state, action) => {
       localStorage.setItem("cartItems", JSON.stringify(cartItems));
       return {...state, cart: { ...state.cart, cartItems}};
         }
+
+    case "USER_SIGNIN":
+      return { ...state, userInfo: action.payload};
+
+    case "USER_SIGNOUT":
+      return { ...state, userInfo: null };
 
 
     default: 

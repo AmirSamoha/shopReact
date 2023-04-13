@@ -12,21 +12,20 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
 import { Store } from "../Store";
 
-/* <Navbar bg="dark" variant="dark">
-            <Container>
-              <LinkContainer to="/">
-              <Navbar.Brand>Web store</Navbar.Brand>
-              </LinkContainer>
-            </Container>
-          </Navbar> */
-
 const NavHome = (props) => {
-  const {state} = useContext(Store);
-  const {cart } = state;
-  
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { cart, userInfo } = state;
+
+  //sign out the user function
+  const signOutHendler = () => {
+    ctxDispatch({ type: "USER_SIGNOUT" });
+    localStorage.removeItem("userInfo"); // נמחק את כל הנתונים הקיימים על המשתמש בלוקל סטורץ
+    window.location.href = "/signin"; // שהדפדפן ינווט לדף"/signin"
+  };
+
   return (
     <div>
-      <Navbar bg="light" expand="lg" >
+      <Navbar bg="light" expand="lg">
         <Container fluid>
           <LinkContainer to="/">
             <Navbar.Brand>Store Web</Navbar.Brand>
@@ -63,18 +62,40 @@ const NavHome = (props) => {
               <Button variant="outline-success">Search</Button>
             </Form>
           </Navbar.Collapse>
-        {/* נוובר לעגלת המוצרים */}
+          {/* נוובר לעגלת המוצרים */}
           <Nav className="me-auto">
-            <Link to="/cart" className="nav-link"> 
-            Cart: 
-            {cart.cartItems.length > 0 &&
-            (<Badge pill="danger">
-              {cart.cartItems.reduce((a,c) => a + c.quantity, 0)}
-            </Badge>)}
+            <Link to="/cart" className="nav-link">
+              Cart:
+              {cart.cartItems.length > 0 && (
+                <Badge pill="danger">
+                  {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                </Badge>
+              )}
             </Link>
+                {/** נוובר לרישום המשתמש */}
+            {userInfo ? (
+              <NavDropdown title={userInfo?.username} id="basic-nav-dropdown">
+                <LinkContainer to="/profile">
+                  <NavDropdown.Item>User Profile</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to="/orderhistory">
+                  <NavDropdown.Item>Order History</NavDropdown.Item>
+                </LinkContainer>
+                <NavDropdown.Divider />
+                <Link
+                  className="dropdown-item"
+                  to="#signout"
+                  onClick={signOutHendler}
+                >
+                  Sign Out
+                </Link>
+              </NavDropdown>
+            ) : (
+              <Link className="nav-link" to="/signin">
+                Sign In
+              </Link>
+            )}
           </Nav>
-
-
         </Container>
       </Navbar>
     </div>
