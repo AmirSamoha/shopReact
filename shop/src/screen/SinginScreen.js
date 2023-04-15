@@ -4,7 +4,10 @@ import {Container, Form, Button} from 'react-bootstrap';
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { Store } from '../Store';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 
 const SinginScreen = () => {
@@ -36,10 +39,16 @@ const SinginScreen = () => {
 
             ctxDispatch({type: 'USER_SIGNIN', payload: data});
             localStorage.setItem('userInfo', JSON.stringify(data));
+            
             Navigate( redirect || '/' );
+            
 
         } catch(err) {
-            toast.error(err);
+            toast.error('The user Not exists in the system ', {
+                autoClose: 3000, // notification will close after 3 seconds
+                closeButton: true, // display a close button
+                
+              });
             
         }
 
@@ -48,6 +57,7 @@ const SinginScreen = () => {
     return (
         <div>
         <Container className="small-container">
+        <ToastContainer position='top-center' limit={1}/>
             <Helmet>
                 <title>Sign In</title>
             </Helmet>

@@ -10,10 +10,19 @@ const initialState = {
   JSON.parse(localStorage.getItem('userInfo')) : // אם קיים משתמש נמיר את המידע שיש על המשתמש לקובץ גייסון
   null, // אם לא נתחיל מצב התחלתי של מידע על המשתמש במצב ריק
   
-  //cart initialState
-  cart: {cartItems: localStorage.getItem('cartItems') ? //נבדוק אם נשמר לנו בלוקל מידע אם כן נחזיר אותו אם לא נחזור למצב התחלתי עגלה ריקה
+  //cart initialState 
+  cart: {
+
+  //shippung address initialState
+  shippingAddress: localStorage.getItem('shippingAddress') ? // נבדוק אם יש לנו נתונים של כתובת המשלוח בלוקל סטורץ 
+  JSON.parse(localStorage.getItem('shippingAddress')) :
+  [],
+
+  //cart items initialState
+  cartItems: localStorage.getItem('cartItems') ? //נבדוק אם נשמר לנו בלוקל מידע אם כן נחזיר אותו אם לא נחזור למצב התחלתי עגלה ריקה
   JSON.parse(localStorage.getItem('cartItems')) :
-  [], },};
+  [], }
+};
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -36,8 +45,12 @@ const reducer = (state, action) => {
     case "USER_SIGNIN":
       return { ...state, userInfo: action.payload};
 
+    case "SAVE_SHIPPING_ADDRESS":
+      return{...state, cart:{...state.cart, shippingAddress: action.payload }};
+
     case "USER_SIGNOUT":
-      return { ...state, userInfo: null };
+      return { ...state, userInfo: null, cart:{cartItems:[], shippingAddress:{},},  
+      };
 
 
     default: 
