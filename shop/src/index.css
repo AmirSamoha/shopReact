@@ -74,6 +74,7 @@ main {
   flex-wrap: wrap;
 }
 
+
 .indexOfProduct {
   position: absolute;
   top: 0;
@@ -96,7 +97,19 @@ main {
   max-width: 600px;
 }
 
- .checkout-steps > div { /* when the step in display */
+.large-container{
+  max-width: 50%;
+  text-align: -webkit-center;
+  width: 80%; /* adjust the width as needed */
+  margin: 0 auto;
+
+}
+
+.checkout-steps{
+  width: 1300px;
+}
+
+.checkout-steps > div { /* when the step in display */
   border-bottom: 0.2rem solid #a0a0a0;
   color: #a0a0a0;
 }
@@ -104,3 +117,25 @@ main {
   border-bottom: 0.2rem solid #f08000;
   color: #f08000;
 }
+
+.form-group {
+  padding: 10px;
+  justify-content: center;
+}
+
+.form-group label {
+  font-size: 20px;
+  color: #333;
+}
+
+.form-group input {
+  font-size: 16px;
+  color: #a42b2b;
+  text-align: center;
+}
+
+.form-group:hover {
+  background-color: #f7f7f7;
+}
+
+

@@ -8,19 +8,14 @@ import CheckSteps from "../components/CheckSteps";
 const ShippingAddressScreen = () => {
   //store
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const {
-    userInfo,
-    cart: { shippingAddress },
-  } = state;
+  const {userInfo, cart: { shippingAddress },} = state;
 
   const navigate = useNavigate();
 
   const [fullName, setFullName] = useState(shippingAddress.fullName || "");
   const [address, setAddress] = useState(shippingAddress.address || "");
   const [city, setCity] = useState(shippingAddress.city || "");
-  const [postalCode, setPostalCode] = useState(
-    shippingAddress.postalCode || ""
-  );
+  const [postalCode, setPostalCode] = useState(shippingAddress.postalCode || "");
   const [country, setCountry] = useState(shippingAddress.country || "");
 
   useEffect(() => {
@@ -51,12 +46,12 @@ const ShippingAddressScreen = () => {
       <Helmet> Shipping adress</Helmet>
       <CheckSteps step1 step2></CheckSteps>
 
-      <div className="container small-container">
-        <h1 className="my-3"> Shipping adress </h1>
+      <div className="large-container ">
+        <h1 className="mb-4"> Shipping adress </h1>
 
         <form onSubmit={submitHendler}>
-          <Form.Group className="mb-3" controlId="fullName">
-            <Form.Label>Full Name</Form.Label>
+          <Form.Group className="form-group " controlId="fullName">
+            <Form.Label>Full Name:</Form.Label>
             <Form.Control
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
@@ -64,41 +59,41 @@ const ShippingAddressScreen = () => {
             />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="address">
-            <Form.Label>Address</Form.Label>
+          <Form.Group className="form-group" controlId="address">
+            <Form.Label>Address:</Form.Label>
             <Form.Control
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="city">
-            <Form.Label>City</Form.Label>
+          <Form.Group className="form-group" controlId="city">
+            <Form.Label>City:</Form.Label>
             <Form.Control
               value={city}
               onChange={(e) => setCity(e.target.value)}
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="postalCode">
-            <Form.Label>Postal Code</Form.Label>
+          <Form.Group className="form-group" controlId="postalCode">
+            <Form.Label>Postal Code:</Form.Label>
             <Form.Control
               value={postalCode}
               onChange={(e) => setPostalCode(e.target.value)}
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="country">
-            <Form.Label>Country</Form.Label>
+          <Form.Group className="form-group" controlId="country">
+            <Form.Label>Country:</Form.Label>
             <Form.Control
               value={country}
               onChange={(e) => setCountry(e.target.value)}
               required
             />
           </Form.Group>
-          <div className="mb-3">
+          <div className="align-items-center">
             <Button variant="primary" type="submit">
-              Continue
+              Continue To payment
             </Button>
           </div>
         </form>

@@ -42,10 +42,23 @@ const deleteData = async () => {
     }
 };
 
+// update data
+// const updateData = async () => {
+//     try {
+//         await Product.updateMany(); // פקודה זו מוחקת את כל הנתונים במסד נתונים לא להתשמש בה סתם
+//         console.log("update items...");
+//         process.exit();
+//     } catch (err) {
+//         console.error(err);
+//     }
+// };
+
 
 //תנאי בהזנה בטרמינל אם הערך במקום ה2 יהיה די נגיע לפונקציה של המחיקה
 if (process.argv[2] === "-i") {
     importData();
 } else if (process.argv[2] === "-d") {
     deleteData();
-}
+} // else if (process.argv[2] === "-u") {
+    // updateData();
+// }
