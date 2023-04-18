@@ -6,6 +6,7 @@ import { Helmet } from "react-helmet-async";
 import LoadingBox from "../components/LoadingBox";
 
 
+
 const reducer = (state, action) => {
   switch (action.type) {
     case "FETCH_REQUEST": //מצב שבו אנו שולחים את הבקשה לשרת נשמור על הערכים הישנים של סטייט ונגדיר את ההמתנה לאמת

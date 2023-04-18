@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Rating from "./Rating";
 import axios from "axios";
 import { Store } from "../Store";
+import { toast, ToastContainer } from 'react-toastify';
 
 //קומפוננטה שתציג כל מוצר בנפרש
 export const Products = (props) => {
@@ -32,10 +33,17 @@ const addToCart = async(product) => {
       payload: {...product, quantity: quantity}, // פרמטר זה יקבל את המוצר וכמות המוצר
     });
 
+    toast.success(`added ${product.name}`, {
+      autoClose: 1000, // notification will close after 3 seconds
+      closeButton: true, // display a close button
+      
+    });
+
 };
 
   return (
     <Card>
+      <ToastContainer position='top-right' limit={5}/>
       <span className="indexOfProduct">{`#${indexOfProduct + 1}`}</span>
       <div className="product" key={product.slug}>
         <Link className="link" to={`/product/${product.slug}`}>

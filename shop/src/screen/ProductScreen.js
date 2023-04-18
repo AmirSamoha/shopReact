@@ -6,6 +6,7 @@ import Rating from "../components/Rating";
 import { Helmet } from "react-helmet-async";
 import { Store } from "../Store";
 import LoadingBox from "../components/LoadingBox";
+import { toast, ToastContainer } from 'react-toastify';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -74,6 +75,12 @@ const addToCart = async() => {
     type: "CART_ADD_ITEM",
     payload: {...product, quantity: quantity}, // פרמטר זה יקבל את המוצר וכמות המוצר
   });
+
+  toast.success(`added ${product.name}`, {
+    autoClose: 1000, // notification will close after 3 seconds
+    closeButton: true, // display a close button
+    
+  });
 };
 
   return loading ? (
@@ -82,6 +89,7 @@ const addToCart = async() => {
     <div> {error}</div>
   ) : (
     <div className="container">
+          <ToastContainer position='top-right' limit={5}/>
       <Row>
         <Col sm={4}>
           <img className="img-item" src={product.image} alt={product.slug} />
