@@ -4,6 +4,7 @@ import { Col, Row } from "react-bootstrap";
 import  Products  from "../components/Products";
 import { Helmet } from "react-helmet-async";
 import LoadingBox from "../components/LoadingBox";
+import MessageBox from "../components/MessaseBox";
 
 
 
@@ -61,7 +62,7 @@ function HomeScreen() {
             {loading ? (
               <div>Loading... <LoadingBox /> </div>
             ) : error ? (
-              <div> error...{error} </div>
+              <MessageBox variant="danger">{error} </MessageBox>
             ) : (
               products.map((product, index) => (
                 <Col key={product.slug} sm={6} md={4} lg={3} className="mb-3">

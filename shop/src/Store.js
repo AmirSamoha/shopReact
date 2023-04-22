@@ -37,11 +37,10 @@ const reducer = (state, action) => {
         (item) => item._id === newItem._id
       );
       console.log(existItem);
-      const cartItems = existItem
-        ? state.cart.cartItems.map((item) =>
-            item._id === existItem._id ? newItem : item
-          )
-        : [...state.cart.cartItems, newItem];
+      const cartItems = existItem ? 
+      state.cart.cartItems.map((item) => item._id === existItem._id ? newItem : item) : 
+      [...state.cart.cartItems, newItem];
+      
       console.log(cartItems);
       localStorage.setItem("cartItems", JSON.stringify(cartItems));
       return { ...state, cart: { ...state.cart, cartItems } };
@@ -53,6 +52,9 @@ const reducer = (state, action) => {
       localStorage.setItem("cartItems", JSON.stringify(cartItems));
       return { ...state, cart: { ...state.cart, cartItems } };
     }
+
+    case "CART_CLEAR":
+      return { ...state, cart: { ...state.cart, cartItems: [] } };
 
     case "USER_SIGNIN":
       return { ...state, userInfo: action.payload };

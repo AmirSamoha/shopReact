@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { Store } from "../Store";
 import { Col, ListGroup, Row, Button,Card } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import MessageBox from "../components/MessaseBox";
 // import axios from "axios";
 
 const CartScreen = () => {
@@ -47,9 +48,9 @@ const CartScreen = () => {
       <Row>
         <Col md={8}>
           {cartItems.length === 0 ? (
-            <p>
+            <MessageBox>
               Cart is empty. <Link to="/">Go Shopping</Link>
-            </p>
+            </MessageBox>
           ) : (
             <ListGroup>
               {cartItems.map((item) => (

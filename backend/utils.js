@@ -19,3 +19,21 @@ export const generateToken = (user) => {
         }
     );
 };
+
+//פונקציה שנעביר אותה בבקשת אקיוס מהצד שרת
+export const isAuth = (req, res, next) => {
+    const authorization = req.headers.authorization;
+    if (authorization) { //נבדוק האם קיים משתמש מחובר
+        const token = authorization.slice(7, authorization.length); // נקבל את החלק של הטוקן על ידי חתיכה של המילה ,brearer ששלחנו
+        jwt.verify(token, process.env.JWT_SECRET, (err, decode) => { // נוודא שהטוקן שקיבלתי נכון וקיים 
+            if (err) {
+                res.status(401).send({ message: 'Invalid Token' });
+            } else {
+                req.user = decode;
+                next();
+            }
+        });
+    } else {
+        res.status(401).send({ message: 'No Token' });
+      }
+  };

@@ -7,6 +7,7 @@ import { Helmet } from "react-helmet-async";
 import { Store } from "../Store";
 import LoadingBox from "../components/LoadingBox";
 import { toast, ToastContainer } from 'react-toastify';
+import { getError } from "../utilsFront";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -45,7 +46,7 @@ function ProductScreen() {
       } catch (err) {
         dispatch({
           type: "FETCH_FAIL",
-          payload: `error something worng ${err}`,
+          payload: getError(err),
         });
       }
     };
