@@ -8,6 +8,7 @@ import NavHome from "./components/NavHome";
 import CartScreen from "./screen/CartScreen";
 import SinginScreen from "./screen/SinginScreen";
 import ShippingAddressScreen from "./screen/ShippingAddressScreen";
+import SignupScreen from "./screen/SignupScreen";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
               <Route path="/product/:slug" element={<ProductScreen />} />
               <Route path="/cart" element={<CartScreen />} />
               <Route path="/signin" element={<SinginScreen />} />
+              <Route path="/signup" element={<SignupScreen />} />
               <Route path="/shipping" element={<ShippingAddressScreen />} />
               <Route path="/" element={<HomeScreen />} />
             </Routes>

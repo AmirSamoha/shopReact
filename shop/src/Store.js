@@ -15,12 +15,12 @@ const initialState = {
 
   //shippung address initialState
   shippingAddress: localStorage.getItem('shippingAddress') ? // נבדוק אם יש לנו נתונים של כתובת המשלוח בלוקל סטורץ 
-  JSON.parse(localStorage.getItem('shippingAddress')) :
+  JSON.parse(localStorage.getItem('shippingAddress')) : // אם קיים כתובות נמיר את המידע שיש על כתובות לקובץ גייסון
   [],
 
   //cart items initialState
   cartItems: localStorage.getItem('cartItems') ? //נבדוק אם נשמר לנו בלוקל מידע אם כן נחזיר אותו אם לא נחזור למצב התחלתי עגלה ריקה
-  JSON.parse(localStorage.getItem('cartItems')) :
+  JSON.parse(localStorage.getItem('cartItems')) : //אם קיים מוצרים נמיר את המידע שיש על המוצרים לקובץ גייסון 
   [], }
 };
 

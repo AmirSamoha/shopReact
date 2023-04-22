@@ -77,7 +77,7 @@ const addToCart = async() => {
   });
 
   toast.success(`added ${product.name}`, {
-    autoClose: 1000, // notification will close after 3 seconds
+    autoClose: 1000, // notification will close after 1 seconds
     closeButton: true, // display a close button
     
   });
