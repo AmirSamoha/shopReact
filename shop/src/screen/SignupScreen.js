@@ -44,7 +44,7 @@ const SignupScreen = () => {
       localStorage.setItem("userInfo", JSON.stringify(data));
       navigate(redirect || "/");
     } catch (err) {
-      toast.error("User already registered");
+      toast.error("username or email already exists");
     }
   };
 

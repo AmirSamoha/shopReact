@@ -21,6 +21,7 @@ const NavHome = (props) => {
     ctxDispatch({ type: "USER_SIGNOUT" });
     localStorage.removeItem("userInfo"); // נמחק את כל הנתונים הקיימים על המשתמש בלוקל סטורץ
     localStorage.removeItem("shippingAddress"); // נמחק את כל הנתונים הקיימים על הכתובת  בלוקל סטורץ
+    localStorage.removeItem("paymentMethod"); // נמחק את כל הנתונים הקיימים על אמצעי תשלום  בלוקל סטורץ
     window.location.href = "/signin"; // שהדפדפן ינווט לדף"/signin"
   };
 
