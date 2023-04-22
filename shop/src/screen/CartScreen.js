@@ -56,11 +56,11 @@ const CartScreen = () => {
               {cartItems.map((item) => (
                 <ListGroup.Item key={item._id}>
                   <Row className="align-items-center cart-items">
-                    <Col md={4}>
+                    <Col md={3}>
                       <img
                         src={item.image}
                         alt={item.name}
-                        className="img-fluid rounded img-thumbnail"
+                        className="img-fluid .order-img"
                       ></img>{" "}
                       <Link className="link" to={`/product/${item.slug}`}>{item.name}</Link>
                     </Col>

@@ -1,13 +1,10 @@
-import React, { useEffect, useReducer } from "react";
 import axios from "axios";
-import { Col, Row } from "react-bootstrap";
-import  Products  from "../components/Products";
+import React, { useEffect, useReducer } from "react";
+import { Col, Container, Row } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessaseBox";
-import { getError } from "../utilsFront";
-
-
+import Products from "../components/Products";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -23,17 +20,13 @@ const reducer = (state, action) => {
   }
 };
 
-function HomeScreen() {
-  //state
-  // const [products, setProduct] = useState([]);
-
+const WomenProducts = () => {
   //reducer
   const [{ products, loading, error }, dispatch] = useReducer(reducer, {
     products: [],
     loading: true,
     error: "",
   });
-
 
   //effect
   useEffect(() => {
@@ -45,7 +38,7 @@ function HomeScreen() {
       } catch (err) {
         dispatch({
           type: "FETCH_FAIL",
-          payload: getError(err),
+          payload: `error something worng ${err}`,
         });
       }
     };
@@ -56,26 +49,34 @@ function HomeScreen() {
     <div>
       <main>
         <Helmet>
-        <title>Store Products</title>
+          <title>Women Products</title>
         </Helmet>
-        <div className="products">
+        <h1>Women Products</h1>
+        <Container>
           <Row>
             {loading ? (
-              <div>Loading... <LoadingBox /> </div>
+              <div>
+                Loading... <LoadingBox />{" "}
+              </div>
             ) : error ? (
               <MessageBox variant="danger">{error} </MessageBox>
             ) : (
               products.map((product, index) => (
-                <Col key={product.slug} sm={6} md={4} lg={3} className="mb-3">
-                  <Products product={product} indexOfProduct={index} />
-                </Col>
+                <div>
+                  {" "}
+                  {product.gander === "women" && (
+                    <Col key={product.slug} sm={6} md={4} lg={4} className="mb-3">
+                      <Products product={product} indexOfProduct={index} />
+                    </Col>
+                  )}
+                </div>
               ))
             )}
           </Row>
-        </div>
+        </Container>
       </main>
     </div>
   );
-}
+};
 
-export default HomeScreen;
+export default WomenProducts;

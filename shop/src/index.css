@@ -52,6 +52,12 @@ h1 {
   object-fit: fill;
 }
 
+.order-img{
+  max-width: 400px;
+  max-height: 150px;
+  object-fit: fill;
+}
+
 main {
   flex: 1;
 }
@@ -75,6 +81,7 @@ main {
 }
 
 
+
 .indexOfProduct {
   position: absolute;
   top: 0;
@@ -89,7 +96,7 @@ main {
 
 .cart-items {
   padding: 2rem;
-  margin: 1rem;
+  margin: 0rem;
   background-color: rgb(186, 231, 231);
 }
 

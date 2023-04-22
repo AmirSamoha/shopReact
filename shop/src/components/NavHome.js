@@ -40,18 +40,18 @@ const NavHome = (props) => {
               navbarScroll
             >
               <NavDropdown title="Men" id="navbarScrollingDropdown">
-                <NavDropdown.Item>Short</NavDropdown.Item>
+                <NavDropdown.Item><Link className="link" to='/products/men/shirt'> Shirt</Link></NavDropdown.Item>
                 <NavDropdown.Item>Pans</NavDropdown.Item>
                 <NavDropdown.Item>Shoes</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item>All Categories</NavDropdown.Item>
+                <NavDropdown.Item><Link className="link" to='/products/men'> All Categories </Link></NavDropdown.Item>
               </NavDropdown>
               <NavDropdown title="Women" id="navbarScrollingDropdown">
                 <NavDropdown.Item>Short</NavDropdown.Item>
                 <NavDropdown.Item>Pans</NavDropdown.Item>
                 <NavDropdown.Item>Shoes</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item>All Categories</NavDropdown.Item>
+                <NavDropdown.Item><Link className="link" to='/products/women'> All Categories </Link></NavDropdown.Item>
               </NavDropdown>
             </Nav>
             <Form className="d-flex">

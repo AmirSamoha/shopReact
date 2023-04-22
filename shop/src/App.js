@@ -11,6 +11,9 @@ import ShippingAddressScreen from "./screen/ShippingAddressScreen";
 import SignupScreen from "./screen/SignupScreen";
 import PaymentMethodScreen from "./screen/PaymentMethodScreen";
 import PlaceOrderScreen from "./screen/PlaceOrderScreen";
+import MenProducts from "./screen/MenProducts";
+import WomenProducts from "./screen/WomenProductScreen";
+import MenShirtProducts from "./screen/MenShortScreen";
 
 
 function App() {
@@ -31,6 +34,9 @@ function App() {
               <Route path="/shipping" element={<ShippingAddressScreen />} />
               <Route path="/payment" element={<PaymentMethodScreen />} />
               <Route path="/placeorder" element={<PlaceOrderScreen />} />
+              <Route path="/products/men" element={<MenProducts />} />
+              <Route path="/products/men/shirt" element={<MenShirtProducts />} />
+              <Route path="/products/women" element={<WomenProducts />} />
               <Route path="/" element={<HomeScreen />} />
             </Routes>
           </Container>
