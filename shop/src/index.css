@@ -107,7 +107,7 @@ main {
 .large-container{
   max-width: 50%;
   text-align: -webkit-center;
-  width: 80%; /* adjust the width as needed */
+  width: 80%; 
   margin: 0 auto;
 
 }

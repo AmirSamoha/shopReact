@@ -2,9 +2,9 @@ import axios from "axios";
 import React, { useEffect, useReducer } from "react";
 import { Col, Row } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
-import LoadingBox from "../components/LoadingBox";
-import MessageBox from "../components/MessaseBox";
-import Products from "../components/Products";
+import LoadingBox from "../../components/LoadingBox";
+import MessageBox from "../../components/MessaseBox";
+import Products from "../../components/Products";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -20,7 +20,7 @@ const reducer = (state, action) => {
   }
 };
 
-const MenProducts = () => {
+const MenPantsScreen = () => {
   //reducer
   const [{ products, loading, error }, dispatch] = useReducer(reducer, {
     products: [],
@@ -49,9 +49,9 @@ const MenProducts = () => {
     <div>
       <main>
         <Helmet>
-          <title>Men Products</title>
+          <title>Men Pants Products</title>
         </Helmet>
-        <h1>Men Products</h1>
+        <h1>Men Pants Products</h1>
         <div className="products">
           <Row>
             {loading ? (
@@ -64,7 +64,7 @@ const MenProducts = () => {
               products.map((product, index) => (
                 <div>
                   {" "}
-                  {product.gander === "men" && (
+                  {product.gander === "men" && (product.category === "Pants" || product.category === "Pant") && (
                     <Col key={product.slug} sm={6} md={4} lg={3} className="mb-3">
                       <Products product={product} indexOfProduct={index} />
                     </Col>
@@ -79,4 +79,4 @@ const MenProducts = () => {
   );
 };
 
-export default MenProducts;
+export default MenPantsScreen;

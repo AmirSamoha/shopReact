@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useReducer } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
-import LoadingBox from "../components/LoadingBox";
-import MessageBox from "../components/MessaseBox";
-import Products from "../components/Products";
+import LoadingBox from "../../components/LoadingBox";
+import MessageBox from "../../components/MessaseBox";
+import Products from "../../components/Products";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -20,7 +20,7 @@ const reducer = (state, action) => {
   }
 };
 
-const MenShirtProducts = () => {
+const WomenProducts = () => {
   //reducer
   const [{ products, loading, error }, dispatch] = useReducer(reducer, {
     products: [],
@@ -49,10 +49,10 @@ const MenShirtProducts = () => {
     <div>
       <main>
         <Helmet>
-          <title>Men Shirts Products</title>
+          <title>Women Products</title>
         </Helmet>
-        <h1>Men Shirts Products</h1>
-        <div className="products">
+        <h1>Women Products</h1>
+        <Container>
           <Row>
             {loading ? (
               <div>
@@ -64,8 +64,8 @@ const MenShirtProducts = () => {
               products.map((product, index) => (
                 <div>
                   {" "}
-                  {product.gander === "men" && (product.category === "Shirt" || product.category === "Shirts") && (
-                    <Col key={product.slug} sm={6} md={4} lg={3} className="mb-3">
+                  {product.gander === "women" && (
+                    <Col key={product.slug} sm={6} md={4} lg={4} className="mb-3">
                       <Products product={product} indexOfProduct={index} />
                     </Col>
                   )}
@@ -73,10 +73,10 @@ const MenShirtProducts = () => {
               ))
             )}
           </Row>
-        </div>
+        </Container>
       </main>
     </div>
   );
 };
 
-export default MenShirtProducts;
+export default WomenProducts;

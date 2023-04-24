@@ -11,9 +11,11 @@ import ShippingAddressScreen from "./screen/ShippingAddressScreen";
 import SignupScreen from "./screen/SignupScreen";
 import PaymentMethodScreen from "./screen/PaymentMethodScreen";
 import PlaceOrderScreen from "./screen/PlaceOrderScreen";
-import MenProducts from "./screen/MenProducts";
-import WomenProducts from "./screen/WomenProductScreen";
-import MenShirtProducts from "./screen/MenShortScreen";
+import MenProducts from "./screen/Men_categories/MenProducts";
+import WomenProducts from "./screen/Women_categories/WomenProductScreen";
+import MenShirtProducts from "./screen/Men_categories/MenShortScreen";
+import MenPantsScreen from "./screen/Men_categories/MenPantsScreen";
+import MenShoesScreen from "./screen/Men_categories/MenShoesScreen";
 
 
 function App() {
@@ -35,7 +37,9 @@ function App() {
               <Route path="/payment" element={<PaymentMethodScreen />} />
               <Route path="/placeorder" element={<PlaceOrderScreen />} />
               <Route path="/products/men" element={<MenProducts />} />
-              <Route path="/products/men/shirt" element={<MenShirtProducts />} />
+              <Route path="/products/men/shirts" element={<MenShirtProducts />} />
+              <Route path="/products/men/pants" element={<MenPantsScreen />} />
+              <Route path="/products/men/shoes" element={<MenShoesScreen />} />
               <Route path="/products/women" element={<WomenProducts />} />
               <Route path="/" element={<HomeScreen />} />
             </Routes>
