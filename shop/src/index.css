@@ -43,12 +43,13 @@ h1 {
 .product {
   margin: 1rem;
   background-color: rgb(222, 244, 244);
+  height: 550px;
 }
 
 .product img {
   width: 100%;
   max-width: 400px;
-  max-height: 250px;
+  max-height: 350px;
   object-fit: fill;
 }
 

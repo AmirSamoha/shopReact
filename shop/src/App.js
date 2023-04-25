@@ -13,7 +13,7 @@ import PaymentMethodScreen from "./screen/PaymentMethodScreen";
 import PlaceOrderScreen from "./screen/PlaceOrderScreen";
 import MenProducts from "./screen/Men_categories/MenProducts";
 import WomenProducts from "./screen/Women_categories/WomenProductScreen";
-import MenShirtProducts from "./screen/Men_categories/MenShortScreen";
+import MenShirtProducts from "./screen/Men_categories/MenShirtScreen";
 import MenPantsScreen from "./screen/Men_categories/MenPantsScreen";
 import MenShoesScreen from "./screen/Men_categories/MenShoesScreen";
 import OrderScreen from "./screen/OrderScreen";

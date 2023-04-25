@@ -62,15 +62,12 @@ const MenPantsScreen = () => {
             ) : error ? (
               <MessageBox variant="danger">{error} </MessageBox>
             ) : (
-              products.map((product, index) => (
-                <div>
-                  {" "}
-                  {product.gander === "men" && (product.category === "Pants" || product.category === "Pant") && (
-                    <Col key={product.slug} sm={6} md={4} lg={3} className="mb-3">
-                      <Products product={product} indexOfProduct={index} />
-                    </Col>
-                  )}
-                </div>
+              products
+              .filter((product) =>product.gander === "men" && (product.category === "Pants" || product.category === "Pant"))
+              .map((product, index) => (
+                <Col key={product.slug} sm={6} md={4} lg={6} className="mb-3">
+                  <Products product={product} indexOfProduct={index} />
+                </Col>
               ))
             )}
           </Row>

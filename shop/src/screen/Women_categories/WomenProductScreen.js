@@ -62,15 +62,12 @@ const WomenProducts = () => {
             ) : error ? (
               <MessageBox variant="danger">{error} </MessageBox>
             ) : (
-              products.map((product, index) => (
-                <div>
-                  {" "}
-                  {product.gander === "women" && (
-                    <Col key={product.slug} sm={6} md={4} lg={4} className="mb-3">
-                      <Products product={product} indexOfProduct={index} />
-                    </Col>
-                  )}
-                </div>
+              products
+              .filter((product) => product.gander === "women")
+              .map((product, index) => (
+                <Col key={product.slug} sm={6} md={4} lg={4} className="mb-3">
+                  <Products product={product} indexOfProduct={index} />
+                </Col>
               ))
             )}
           </Row>

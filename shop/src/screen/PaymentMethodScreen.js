@@ -30,7 +30,7 @@ const PaymentMethodScreen = () => {
   return (
     <div>
         <CheckSteps step1 step2 step3></CheckSteps>
-        <div className='container small-container'>
+        <div className='container large-container'>
             <Helmet>
                 <title>Payment Method </title>
             </Helmet>
