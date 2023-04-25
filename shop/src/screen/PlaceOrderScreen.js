@@ -7,6 +7,7 @@ import { Row, Col, Card, ListGroup, Button } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
 import LoadingBox from "../components/LoadingBox";
+import { getError } from "../utilsFront";
 
 //reducer local
 const reducer = (state, action) => {
@@ -58,10 +59,10 @@ const PlaceOrderScreen = () => {
       ctxDispatch({ type: "CART_CLEAR" });
       dispatch({ type: "CREATE_SUCCESS" });
       localStorage.removeItem("cartItems");
-      navigate(`/order/${data.order._id}`);//לאחר ההזמנה ננוט לדף הסיכום הזמנה עם האיי די של ההזמנה
+      navigate(`/order/${data.order._id}`);//לאחר ההזמנה ננוט לדף הסיכום הזמנה עם האיי די של ההזמנה שנוצר במסד נתונים לאחר הזמנה חדשה
     } catch (err) {
       dispatch({ type: "CREATE_FAIL" });
-      toast.error(" some error");
+      toast.error(getError(err));
     }
   };
 

@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet-async";
 import LoadingBox from "../../components/LoadingBox";
 import MessageBox from "../../components/MessaseBox";
 import Products from "../../components/Products";
+import { getError } from "../../utilsFront";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -38,7 +39,7 @@ const MenShirtProducts = () => {
       } catch (err) {
         dispatch({
           type: "FETCH_FAIL",
-          payload: `error something worng ${err}`,
+          payload: getError(err),
         });
       }
     };

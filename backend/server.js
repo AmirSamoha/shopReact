@@ -1,7 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import data from "./data.js";
 import productRouter from "./Routes/ProductRoutes.js";
 import seedRouter from "./Routes/seedRoutes.js";
 import userRouter from "./Routes/userRoutes.js";

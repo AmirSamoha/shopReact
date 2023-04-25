@@ -16,6 +16,7 @@ import WomenProducts from "./screen/Women_categories/WomenProductScreen";
 import MenShirtProducts from "./screen/Men_categories/MenShortScreen";
 import MenPantsScreen from "./screen/Men_categories/MenPantsScreen";
 import MenShoesScreen from "./screen/Men_categories/MenShoesScreen";
+import OrderScreen from "./screen/OrderScreen";
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
               <Route path="/products/men/pants" element={<MenPantsScreen />} />
               <Route path="/products/men/shoes" element={<MenShoesScreen />} />
               <Route path="/products/women" element={<WomenProducts />} />
+              <Route path="/order/:id" element={<OrderScreen />} />
               <Route path="/" element={<HomeScreen />} />
             </Routes>
           </Container>
