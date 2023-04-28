@@ -71,7 +71,7 @@ const PlaceOrderScreen = () => {
     if (!cart.paymentMethod) {
       navigate("/payment");
     }
-  }, [cart, navigate]);
+  }, [cart, navigate,cart.paymentMethod]);
 
   const roundTotal = (num) => Math.round(num * 100 + Number.EPSILON) / 100; //פונקציה אשר תעגל ותשאיר שני ספרות אחרי הנקודהה
   cart.itemsPrice = roundTotal(

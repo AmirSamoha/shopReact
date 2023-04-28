@@ -21,7 +21,7 @@ const reducer = (state, action) => {
   }
 };
 
-const WomenProducts = () => {
+const WomenPantsProducts = () => {
   //reducer
   const [{ products, loading, error }, dispatch] = useReducer(reducer, {
     products: [],
@@ -50,9 +50,9 @@ const WomenProducts = () => {
     <div>
       <main>
         <Helmet>
-          <title>Women Products</title>
+          <title>Women Pants</title>
         </Helmet>
-        <h1>Women Products</h1>
+        <h1>Women Pants</h1>
         <div className="products">
           <Row>
             {loading ? (
@@ -63,9 +63,9 @@ const WomenProducts = () => {
               <MessageBox variant="danger">{error} </MessageBox>
             ) : (
               products
-              .filter((product) => product.gander === "women")
+              .filter((product) => product.gander === "women" && (product.category === "Pants" || product.category === "Pant"))
               .map((product, index) => (
-                <Col key={product.slug} sm={6} md={4} lg={4} className="mb-3">
+                <Col key={product.slug} sm={6} md={4} lg={12} className="mb-3">
                   <Products product={product} indexOfProduct={index} />
                 </Col>
               ))
@@ -77,4 +77,4 @@ const WomenProducts = () => {
   );
 };
 
-export default WomenProducts;
+export default WomenPantsProducts;

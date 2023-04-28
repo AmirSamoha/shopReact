@@ -47,9 +47,9 @@ const NavHome = (props) => {
                 <NavDropdown.Item><Link className="link" to='/products/men'> All Categories </Link></NavDropdown.Item>
               </NavDropdown>
               <NavDropdown title="Women" id="navbarScrollingDropdown">
-                <NavDropdown.Item>Short</NavDropdown.Item>
-                <NavDropdown.Item>Pans</NavDropdown.Item>
-                <NavDropdown.Item>Shoes</NavDropdown.Item>
+                <NavDropdown.Item><Link className="link" to='/products/women/shirts'> Shirts</Link></NavDropdown.Item>
+                <NavDropdown.Item><Link className="link" to='/products/women/pants'> Pants</Link></NavDropdown.Item>
+                <NavDropdown.Item><Link className="link" to='/products/women/shoes'> Shoes</Link></NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item><Link className="link" to='/products/women'> All Categories </Link></NavDropdown.Item>
               </NavDropdown>

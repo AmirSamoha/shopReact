@@ -44,9 +44,9 @@ const CartScreen = () => {
       <Helmet>
         <title>Shopping Cart</title>
       </Helmet>
-      <h1>Shopping Cart</h1>
+      <h1 className="my-3">Shopping Cart</h1>
       <Row>
-        <Col md={8}>
+        <Col sm={8}>
           {cartItems.length === 0 ? (
             <MessageBox>
               Cart is empty. <Link to="/">Go Shopping</Link>
@@ -56,7 +56,7 @@ const CartScreen = () => {
               {cartItems.map((item) => (
                 <ListGroup.Item key={item._id}>
                   <Row className="align-items-center cart-items">
-                    <Col md={3}>
+                    <Col md={2}>
                       <img
                         src={item.image}
                         alt={item.name}
@@ -85,7 +85,7 @@ const CartScreen = () => {
             </ListGroup>
           )}
         </Col>
-        <Col lg={4}>
+        <Col sm={4}>
           <Card>
             <Card.Body>
               <ListGroup variant="flush">
