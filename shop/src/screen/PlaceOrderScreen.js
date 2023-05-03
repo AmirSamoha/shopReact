@@ -41,7 +41,8 @@ const PlaceOrderScreen = () => {
     try {
       dispatch({ type: "CREATE_REQUEST" });
 
-      const { data } = await axios.post("/api/orders",
+      const { data } = await axios.post(
+        "/api/orders",
         {
           orderItems: cart.cartItems,
           shippingAddress: cart.shippingAddress,
@@ -52,14 +53,14 @@ const PlaceOrderScreen = () => {
           totalPrice: cart.totalPrice,
         },
         {
-            //מי שיוכל לבצע הזמנה זה רק משתמש שיש לו טוקן והוא רשאי להזמין
+          //מי שיוכל לבצע הזמנה זה רק משתמש שיש לו טוקן והוא רשאי להזמין
           headers: { authorization: `Bearer ${userInfo.token}` },
         }
       );
       ctxDispatch({ type: "CART_CLEAR" });
       dispatch({ type: "CREATE_SUCCESS" });
       localStorage.removeItem("cartItems");
-      navigate(`/order/${data.order._id}`);//לאחר ההזמנה ננוט לדף הסיכום הזמנה עם האיי די של ההזמנה שנוצר במסד נתונים לאחר הזמנה חדשה
+      navigate(`/order/${data.order._id}`); //לאחר ההזמנה ננוט לדף הסיכום הזמנה עם האיי די של ההזמנה שנוצר במסד נתונים לאחר הזמנה חדשה
     } catch (err) {
       dispatch({ type: "CREATE_FAIL" });
       toast.error(getError(err));
@@ -71,11 +72,12 @@ const PlaceOrderScreen = () => {
     if (!cart.paymentMethod) {
       navigate("/payment");
     }
-  }, [cart, navigate,cart.paymentMethod]);
+  }, [cart, navigate]);
 
   const roundTotal = (num) => Math.round(num * 100 + Number.EPSILON) / 100; //פונקציה אשר תעגל ותשאיר שני ספרות אחרי הנקודהה
   cart.itemsPrice = roundTotal(
-  cart.cartItems.reduce((a, c) => a + c.quantity * c.price, 0)); // סהכ המחיר של כל המוצרים בעגלה
+    cart.cartItems.reduce((a, c) => a + c.quantity * c.price, 0)
+  ); // סהכ המחיר של כל המוצרים בעגלה
   cart.shippingPrice = cart.itemsPrice > 100 ? roundTotal(0) : roundTotal(10); //  מחיר המשלוח אם סהכ המוצרים עוברים את 100 אז משלוח חינם
   cart.taxPrice = roundTotal(0.15 * cart.itemsPrice); // הוספת תשלופ מיסים
   cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice; //נציג את המחיר של סהכ ביחד
@@ -126,7 +128,9 @@ const PlaceOrderScreen = () => {
                             alt={item.name}
                             className="img-fluid order-img"
                           ></img>{" "}
-                          <Link className="link" to={`/product/${item.slug}`}>{item.name}</Link>
+                          <Link className="link" to={`/product/${item.slug}`}>
+                            {item.name}
+                          </Link>
                         </Col>
                         <Col md={3}>
                           <span>{item.quantity}</span>

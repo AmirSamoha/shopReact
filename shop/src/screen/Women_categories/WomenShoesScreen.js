@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useReducer } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
 import LoadingBox from "../../components/LoadingBox";
 import MessageBox from "../../components/MessaseBox";
@@ -53,7 +53,7 @@ const WomenShoesProducts = () => {
           <title>Women Shoes</title>
         </Helmet>
         <h1>Women Shoes</h1>
-        <Container>
+        <div className="products">
           <Row>
             {loading ? (
               <div>
@@ -71,7 +71,7 @@ const WomenShoesProducts = () => {
               ))
             )}
           </Row>
-        </Container>
+        </div>
       </main>
     </div>
   );

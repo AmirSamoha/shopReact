@@ -90,7 +90,7 @@ const addToCart = async() => {
     <div> {error}</div>
   ) : (
     <div className="container">
-          <ToastContainer position='top-right' limit={5}/>
+          <ToastContainer position='top-left' limit={5}/>
       <Row>
         <Col sm={4}>
           <img className="img-item" src={product.image} alt={product.slug} />

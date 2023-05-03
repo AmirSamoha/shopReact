@@ -20,6 +20,7 @@ import OrderScreen from "./screen/OrderScreen";
 import WomenPantsProducts from "./screen/Women_categories/WomenPantsScreen";
 import WomenShirtProducts from "./screen/Women_categories/WomenShirtScreen";
 import WomenShoesProducts from "./screen/Women_categories/WomenShoesScreen";
+import OrderHistoryScreen from "./screen/OrderHistoryScreen";
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
               <Route path="/shipping" element={<ShippingAddressScreen />} />
               <Route path="/payment" element={<PaymentMethodScreen />} />
               <Route path="/placeorder" element={<PlaceOrderScreen />} />
+              <Route path="/orderhistory" element={<OrderHistoryScreen />} />
               <Route path="/products/men" element={<MenProducts />} />
               <Route path="/products/men/shirts" element={<MenShirtProducts />} />
               <Route path="/products/men/pants" element={<MenPantsScreen />} />

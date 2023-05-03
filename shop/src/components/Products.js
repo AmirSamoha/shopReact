@@ -43,7 +43,7 @@ const addToCart = async(product) => {
 
   return (
     <Card className="card">
-      <ToastContainer position='top-right' limit={5}/>
+      <ToastContainer position='top-left' limit={5}/>
       <span className="indexOfProduct">{`#${indexOfProduct + 1}`}</span>
       <div className="product" key={product.slug}>
         <Link className="link" to={`/product/${product.slug}`}>

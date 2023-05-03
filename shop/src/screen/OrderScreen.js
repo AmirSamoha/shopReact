@@ -56,7 +56,7 @@ const OrderScreen = () => {
     initialState
   );
 
-  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer(); //רדוסר מובנה של פייפל
 
   function createOrder(data, actions) {
     return actions.order

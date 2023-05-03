@@ -100,11 +100,12 @@ main {
 
 .small-container {
   max-width: 600px;
+  /* text-align: -webkit-center; */
 }
 
 .large-container{
   max-width: 50%;
-  /* text-align: -webkit-center; */
+  text-align: -webkit-center;
   width: 80%; 
   margin: 0 auto;
 
@@ -126,6 +127,7 @@ main {
 .form-group {
   padding: 10px;
   justify-content: center;
+  width: 25rem;
 }
 
 .form-group label {
@@ -139,8 +141,6 @@ main {
   text-align: center;
 }
 
-.form-group:hover {
-  background-color: #f7f7f7;
-}
+
 
 

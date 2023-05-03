@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useReducer } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col,Row } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
 import LoadingBox from "../../components/LoadingBox";
 import MessageBox from "../../components/MessaseBox";

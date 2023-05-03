@@ -56,18 +56,18 @@ const SinginScreen = () => {
 
     return (
         <div>
-        <Container className="small-container">
+        <Container className="large-container">
         <ToastContainer position='top-center' limit={1}/>
             <Helmet>
                 <title>Sign In</title>
             </Helmet>
             <h1 className="my-3">Sign In</h1>
             <Form onSubmit={submitHendler}>
-                <Form.Group className="mb-3" controlId="email">
+                <Form.Group className="mb-3 form-group" controlId="email" size="sm">
                     <Form.Label>Email</Form.Label>
                     <Form.Control type="email" required  onChange={(e) => setEmail(e.target.value)} />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="password">
+                <Form.Group className="mb-3 form-group" controlId="password">
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" required onChange={(e) => setPassword(e.target.value)} />
                 </Form.Group>

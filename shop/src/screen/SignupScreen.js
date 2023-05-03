@@ -49,33 +49,33 @@ const SignupScreen = () => {
   };
 
   return (
-    <Container className="small-container">
+    <Container className="large-container">
       <Helmet>
         <title> Sign Up</title>
       </Helmet>
       <h1>Sign Up</h1>
       <ToastContainer position='top-center' limit={1}/>
       <Form onSubmit={submitHandler}>
-        <Form.Group className="mb-3" controlId="firstName">
+        <Form.Group className="mb-3 form-group" controlId="firstName">
           <Form.Label>First Name</Form.Label>
           <Form.Control onChange={(e) => setFirstName(e.target.value)} required />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="lastName">
+        <Form.Group className="mb-3 form-group" controlId="lastName">
           <Form.Label>Last Name</Form.Label>
           <Form.Control onChange={(e) => setLastName(e.target.value)} required />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="username">
+        <Form.Group className="mb-3 form-group" controlId="username">
           <Form.Label>Username</Form.Label>
           <Form.Control onChange={(e) => setUsername(e.target.value)} required />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="email">
+        <Form.Group className="mb-3 form-group" controlId="email">
           <Form.Label>Email</Form.Label>
           <Form.Control type="email" required onChange={(e) => setEmail(e.target.value)} />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="password">
+        <Form.Group className="mb-3 form-group" controlId="password">
           <Form.Label>Password</Form.Label>
           <Form.Control type="password" required onChange={(e) => setPassword(e.target.value)} />
-          <Form.Group className="mb-3" controlId="confirmPassword">
+          <Form.Group className="mb-3 form-group" controlId="confirmPassword">
             <Form.Label>Confirm Password</Form.Label>
             <Form.Control type="password" onChange={(e) => setConfirmPassword(e.target.value)} required />
           </Form.Group>
