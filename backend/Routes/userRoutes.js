@@ -1,7 +1,7 @@
 import express from "express";
 import bcrypt from "bcryptjs";
 import User from "../Models/UserModel.js";
-import { generateToken } from "../utils.js";
+import { isAuth, generateToken } from "../utils.js";
 
 const userRouter = express.Router();
 
@@ -52,5 +52,27 @@ userRouter.post("/signup", async (req, res) => {
     });
   }
 });
+
+
+//בקשה לאיפוס סיסמא
+userRouter.put('/profile', isAuth, (async (req, res) => {
+  const user = await User.findById(req.user._id);
+  if (user) {
+    if (req.body.password) {
+      user.password = bcrypt.hashSync(req.body.password, 6);
+    }
+
+    const updatedUser = await user.save();
+    res.send({
+      _id: updatedUser._id,
+      username: updatedUser.username,
+      email: updatedUser.email,
+      isAdmin: false,
+      token: generateToken(updatedUser),
+    });
+  } else {
+    res.status(404).send({ message: 'User not found' });
+  }}));
+
 
 export default userRouter;
