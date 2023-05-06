@@ -77,6 +77,9 @@ const SinginScreen = () => {
                 <div className="mb-3">New customer?{' '}
                     <Link to={`/signup?redirect=${redirect}`}>Create your account</Link>
                 </div>
+                <div className="mb-3">Forgot password?{' '}
+                    <Link to="/reset-password">Reset</Link>
+                </div>
             </Form>
         </Container>
 

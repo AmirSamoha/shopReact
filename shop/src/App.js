@@ -22,6 +22,8 @@ import WomenShirtProducts from "./screen/Women_categories/WomenShirtScreen";
 import WomenShoesProducts from "./screen/Women_categories/WomenShoesScreen";
 import OrderHistoryScreen from "./screen/OrderHistoryScreen";
 import ProfileScreen from "./screen/ProfileScreen";
+import ResetpasswordScreen from "./screen/ResetpasswordScreen";
+import SearchScreen from "./screen/SearchScreen";
 
 
 function App() {
@@ -53,6 +55,8 @@ function App() {
               <Route path="/products/women/shoes" element={<WomenShoesProducts />} />
               <Route path="/order/:id" element={<OrderScreen />} />
               <Route path="/profile" element={<ProfileScreen />} />
+              <Route path="/reset-password" element={<ResetpasswordScreen />} />
+              <Route path="/search" element={<SearchScreen />} />
               <Route path="/" element={<HomeScreen />} />
             </Routes>
           </Container>

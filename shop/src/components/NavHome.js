@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Container,
   Navbar,
@@ -9,12 +9,40 @@ import {
   Badge,
 } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Store } from "../Store";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { getError } from "../utilsFront";
 
 const NavHome = (props) => {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
+
+  const navigate = useNavigate();
+  const [query, setQuery] = useState();
+
+  const [categories, setCategories] = useState([]);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    navigate(query ? `/search/?query=${query}` : '/search');
+  };
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const { data } = await axios.get(`/api/products/categories`);
+        setCategories(data);
+      } catch (err) {
+        toast.error(getError(err));
+      }
+    };
+    fetchCategories();
+  }, []);
+
+
+   
 
   //sign out the user function
   const signOutHendler = () => {
@@ -54,16 +82,32 @@ const NavHome = (props) => {
                 <NavDropdown.Item><Link className="link" to='/products/women'> All Categories </Link></NavDropdown.Item>
               </NavDropdown>
             </Nav>
-            <Form className="d-flex">
+
+            <Nav className="flex-wrap w-100 p-2">
+            {categories.map((category) => (
+              <Nav.Item key={category} style={{ margin: "10px" }}>
+                  <Link 
+                  className="link"               
+                  to={`/search?category=${category}`}
+                  >{category}</Link>    
+              </Nav.Item>
+            ))}
+          </Nav>
+
+            <Form className="d-flex" onSubmit={submitHandler}>
               <Form.Control
                 type="search"
+                id="query"
+                name="query"
                 placeholder="Search"
                 className="me-2"
                 aria-label="Search"
+                onChange={(e) => setQuery(e.target.value)}
               />
-              <Button variant="outline-success">Search</Button>
+              <Button variant="outline-success" type="submit" id="buttob-search">Search</Button>
             </Form>
           </Navbar.Collapse>
+          
           {/* נוובר לעגלת המוצרים */}
           <Nav className="me-auto">
             <Link to="/cart" className="nav-link">
