@@ -24,18 +24,32 @@ const reducer = (state, action) => {
 };
 
 const PlaceOrderScreen = () => {
+
+  const navigate = useNavigate();
+
   //store global
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
 
-  const navigate = useNavigate();
+  const roundTotal = (num) => Math.round(num * 100 + Number.EPSILON) / 100; //פונקציה אשר תעגל ותשאיר שני ספרות אחרי הנקודהה
+  cart.itemsPrice = roundTotal(
+    cart.cartItems.reduce((a, c) => a + c.quantity * c.price, 0)
+  ); // סהכ המחיר של כל המוצרים בעגלה
+  cart.shippingPrice = cart.itemsPrice > 100 ? roundTotal(0) : roundTotal(10); //  מחיר המשלוח אם סהכ המוצרים עוברים את 100 אז משלוח חינם
+  cart.taxPrice = roundTotal(0.15 * cart.itemsPrice); // הוספת תשלופ מיסים
+  cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice; //נציג את המחיר של סהכ ביחד
 
-  //useReducer
-  const initialState = {
-    //מצב התחלתי לפני השינוי
+
+  // //useReducer
+  // const initialState = {
+  //   //מצב התחלתי לפני השינוי
+  //   loading: false,
+  // };
+  // const [{ loading }, dispatch] = useReducer(reducer, initialState);
+
+  const [{ loading }, dispatch] = useReducer(reducer, {
     loading: false,
-  };
-  const [{ loading }, dispatch] = useReducer(reducer, initialState);
+  });
 
   const placeOrderHandler = async () => {
     try {
@@ -54,7 +68,9 @@ const PlaceOrderScreen = () => {
         },
         {
           //מי שיוכל לבצע הזמנה זה רק משתמש שיש לו טוקן והוא רשאי להזמין
-          headers: { authorization: `Bearer ${userInfo.token}` },
+          headers: { 
+            authorization: `Bearer ${userInfo.token}`,
+          },
         }
       );
       ctxDispatch({ type: "CART_CLEAR" });
@@ -74,16 +90,11 @@ const PlaceOrderScreen = () => {
     }
   }, [cart, navigate]);
 
-  const roundTotal = (num) => Math.round(num * 100 + Number.EPSILON) / 100; //פונקציה אשר תעגל ותשאיר שני ספרות אחרי הנקודהה
-  cart.itemsPrice = roundTotal(
-    cart.cartItems.reduce((a, c) => a + c.quantity * c.price, 0)
-  ); // סהכ המחיר של כל המוצרים בעגלה
-  cart.shippingPrice = cart.itemsPrice > 100 ? roundTotal(0) : roundTotal(10); //  מחיר המשלוח אם סהכ המוצרים עוברים את 100 אז משלוח חינם
-  cart.taxPrice = roundTotal(0.15 * cart.itemsPrice); // הוספת תשלופ מיסים
-  cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice; //נציג את המחיר של סהכ ביחד
+
+
 
   return (
-    <div>
+    
       <div>
         <CheckSteps step1 step2 step3 step4></CheckSteps>
         <Helmet>
@@ -195,7 +206,7 @@ const PlaceOrderScreen = () => {
           </Col>
         </Row>
       </div>
-    </div>
+    
   );
 };
 

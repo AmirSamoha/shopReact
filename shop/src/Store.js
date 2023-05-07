@@ -73,7 +73,7 @@ const reducer = (state, action) => {
       };
 
     case "SAVE_PAYMENT_METHOD":
-      return { cart: { ...state.cart, paymentMethod: action.payload } };
+      return {...state, cart: { ...state.cart, paymentMethod: action.payload } };
 
     default:
       return state;
