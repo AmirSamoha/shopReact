@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { getError } from "../utilsFront";
 import { Helmet } from "react-helmet-async";
 import {Row, Col, Button} from "react-bootstrap";
@@ -67,7 +67,8 @@ export const ratings = [
 const SearchScreen  = () => {
   const navigate = useNavigate();
   const { search } = useLocation();
-  const sp = new URLSearchParams(search);
+  console.log(search);
+  const sp = new URLSearchParams(search); // להפוך את מה שאחרי  הסרץ לפרמנט
   const category = sp.get("category") || "all";
   const query = sp.get("query") || "all";
   const price = sp.get("price") || "all";
@@ -86,8 +87,8 @@ const SearchScreen  = () => {
       try {
         const { data } = await axios.get(
           `/api/products/search?page=${page}&query=${query}&category=${category}&price=${price}&rating=${rating}&order=${order}`
-        );
-        dispatch({ type: "FETCH_SUCCESS", payload: data });
+        ); //פונים לנתיב עם שאילתות ונכניס לערך דאטא
+        dispatch({ type: "FETCH_SUCCESS", payload: data }); //אם חזר תקין נשלח את הדאטא לרדוסר
       } catch (err) {
         dispatch({
           type: "FETCH_FAIL",
@@ -111,7 +112,7 @@ const SearchScreen  = () => {
     fetchCategories();
   }, [dispatch]);
 
-  const getFilterUrl = (filter) => {
+  const getFilterUrl = (filter) => { //כל פילטור שאני ילחץ ישפיע על הנתיב לפי הקטגוריה או הערך שלו
     const filterPage = filter.page || page;
     const filterCategory = filter.category || category;
     const filterQuery = filter.query || query;
@@ -125,6 +126,7 @@ const SearchScreen  = () => {
       <Helmet>
         <title>Search Products</title>
       </Helmet>
+      <ToastContainer position='top-center' limit={1}/>
       <Row>
         <Col md={12}>
           {loading ? (
@@ -163,7 +165,7 @@ const SearchScreen  = () => {
                     }}
                   >
                     <option value="newest">Newest Arrivals</option>
-                    <option value="lowest" selected>
+                    <option value="lowest" defaultValue >
                       Price: Low to High
                     </option>
                     <option value="highest">Price: High to Low</option>
@@ -176,14 +178,14 @@ const SearchScreen  = () => {
                     <ul>
                       <ol>
                         <Link
-                          className={"all" === price ? "text-bold" : ""}
+                          className={"all" === price ? "text-bold link" : ""}
                           to={getFilterUrl({ price: "all" })}
                         >
                           All
                         </Link>
                       </ol>
                       {prices.map((p) => (
-                        <ol key={p.value}>
+                        <ol key={p.value} className="link">
                           <Link
                             to={getFilterUrl({ price: p.value })}
                             className={p.value === price ? "text-bold" : ""}
@@ -202,7 +204,7 @@ const SearchScreen  = () => {
                           <Link
                             to={getFilterUrl({ rating: r.rating })}
                             className={
-                              `${r.rating}` === `${rating}` ? "text-bold" : ""
+                              `${r.rating}` === `${rating}` ? "text-bold link" : ""
                             }
                           >
                             <Rating caption={" "} rating={r.rating}></Rating>
@@ -212,7 +214,7 @@ const SearchScreen  = () => {
                       <ol>
                         <Link
                           to={getFilterUrl({ rating: "all" })}
-                          className={rating === "all" ? "text-bold" : ""}
+                          className={rating === "all" ? "text-bold" : ""} 
                         >
                           <Rating caption={" "} rating={0}></Rating>
                         </Link>
@@ -234,7 +236,7 @@ const SearchScreen  = () => {
               </Row>
 
               <div>
-                {[...Array(pages).keys()].map((x) => (
+                {[...Array(pages).keys()].map((x) => ( //ניצור מערך של מספרים/דפים ונעשה להם מיפוי ונוסיף לכל מספר לינק שנוכל לעבור בין העמודים
                   <Link
                     key={x + 1}
                     className="mx-1"

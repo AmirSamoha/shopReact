@@ -5,7 +5,7 @@ import CheckSteps from "../components/CheckSteps";
 import { Helmet } from "react-helmet-async";
 import { Row, Col, Card, ListGroup, Button } from "react-bootstrap";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import LoadingBox from "../components/LoadingBox";
 import { getError } from "../utilsFront";
 
@@ -101,6 +101,8 @@ const PlaceOrderScreen = () => {
           <title>Preview Order</title>
         </Helmet>
         <h1 className="my-3">Preview Order</h1>
+        <ToastContainer position='top-center' limit={1}/>
+
         <Row>
           <Col md={8}>
             <Card className="mb-3">

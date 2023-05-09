@@ -26,7 +26,7 @@ const NavHome = (props) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    navigate(query ? `/search/?query=${query}` : '/search');
+    navigate(query ? `/search/?query=${query}` : "/search");
   };
 
   useEffect(() => {
@@ -40,9 +40,6 @@ const NavHome = (props) => {
     };
     fetchCategories();
   }, []);
-
-
-   
 
   //sign out the user function
   const signOutHendler = () => {
@@ -68,31 +65,70 @@ const NavHome = (props) => {
               navbarScroll
             >
               <NavDropdown title="Men" id="navbarScrollingDropdown">
-                <NavDropdown.Item><Link className="link" to='/products/men/shirts'> Shirts</Link></NavDropdown.Item>
-                <NavDropdown.Item><Link className="link" to='/products/men/pants'> Pants</Link></NavDropdown.Item>
-                <NavDropdown.Item><Link className="link" to='/products/men/shoes'> Shoes</Link></NavDropdown.Item>
+                <NavDropdown.Item>
+                  <Link className="link" to="/products/men/shirts">
+                    {" "}
+                    Shirts
+                  </Link>
+                </NavDropdown.Item>
+                <NavDropdown.Item>
+                  <Link className="link" to="/products/men/pants">
+                    {" "}
+                    Pants
+                  </Link>
+                </NavDropdown.Item>
+                <NavDropdown.Item>
+                  <Link className="link" to="/products/men/shoes">
+                    {" "}
+                    Shoes
+                  </Link>
+                </NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item><Link className="link" to='/products/men'> All Categories </Link></NavDropdown.Item>
+                <NavDropdown.Item>
+                  <Link className="link" to="/products/men">
+                    {" "}
+                    All Categories{" "}
+                  </Link>
+                </NavDropdown.Item>
               </NavDropdown>
               <NavDropdown title="Women" id="navbarScrollingDropdown">
-                <NavDropdown.Item><Link className="link" to='/products/women/shirts'> Shirts</Link></NavDropdown.Item>
-                <NavDropdown.Item><Link className="link" to='/products/women/pants'> Pants</Link></NavDropdown.Item>
-                <NavDropdown.Item><Link className="link" to='/products/women/shoes'> Shoes</Link></NavDropdown.Item>
+                <NavDropdown.Item>
+                  <Link className="link" to="/products/women/shirts">
+                    {" "}
+                    Shirts
+                  </Link>
+                </NavDropdown.Item>
+                <NavDropdown.Item>
+                  <Link className="link" to="/products/women/pants">
+                    {" "}
+                    Pants
+                  </Link>
+                </NavDropdown.Item>
+                <NavDropdown.Item>
+                  <Link className="link" to="/products/women/shoes">
+                    {" "}
+                    Shoes
+                  </Link>
+                </NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item><Link className="link" to='/products/women'> All Categories </Link></NavDropdown.Item>
+                <NavDropdown.Item>
+                  <Link className="link" to="/products/women">
+                    {" "}
+                    All Categories{" "}
+                  </Link>
+                </NavDropdown.Item>
               </NavDropdown>
             </Nav>
 
             <Nav className="flex-wrap w-100 p-2">
-            {categories.map((category) => (
-              <Nav.Item key={category} style={{ margin: "10px" }}>
-                  <Link 
-                  className="link"               
-                  to={`/search?category=${category}`}
-                  >{category}</Link>    
-              </Nav.Item>
-            ))}
-          </Nav>
+              {categories.map((category) => (
+                <Nav.Item key={category} style={{ margin: "10px" }}>
+                  <Link className="link" to={`/search?category=${category}`}>
+                    {category}
+                  </Link>
+                </Nav.Item>
+              ))}
+            </Nav>
 
             <Form className="d-flex" onSubmit={submitHandler}>
               <Form.Control
@@ -104,22 +140,32 @@ const NavHome = (props) => {
                 aria-label="Search"
                 onChange={(e) => setQuery(e.target.value)}
               />
-              <Button variant="outline-success" type="submit" id="buttob-search">Search</Button>
+              <Button
+                variant="outline-success"
+                type="submit"
+                id="buttob-search"
+              >
+                Search
+              </Button>
             </Form>
           </Navbar.Collapse>
-          
+
           {/* נוובר לעגלת המוצרים */}
           <Nav className="me-auto">
-            <Link to="/cart" className="nav-link">
-              Cart:
-              {cart.cartItems.length > 0 && (
-                <Badge pill="danger">
-                  {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
-                </Badge>
-              )}
-            </Link>
-                {/** נוובר לרישום המשתמש */}
-            {userInfo ? (
+            {userInfo?.isAdmin === false || !userInfo ? (
+              <Link to="/cart" className="nav-link">
+                Cart:
+                {cart.cartItems.length > 0 && (
+                  <Badge pill="danger">
+                    {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                  </Badge>
+                )}
+              </Link>
+            ) : (
+              userInfo?.isAdmin === true && <span></span>
+            )}
+            {/** נוובר לרישום המשתמש */}
+            {userInfo?.isAdmin === false ? (
               <NavDropdown title={userInfo?.username} id="basic-nav-dropdown">
                 <LinkContainer to="/profile">
                   <NavDropdown.Item>User Profile</NavDropdown.Item>
@@ -137,9 +183,36 @@ const NavHome = (props) => {
                 </Link>
               </NavDropdown>
             ) : (
-              <Link className="nav-link" to="/signin">
-                Sign In
-              </Link>
+              !userInfo && (
+                <Link className="nav-link" to="/signin">
+                  Sign In
+                </Link>
+              )
+            )}
+            {/** נוובר שיוצג רק לאדמין */}
+            {userInfo?.isAdmin && (
+              <NavDropdown title="Admin" id="admin-nav-dropdown">
+                <LinkContainer to="/admin/products">
+                  <NavDropdown.Item>Add/Edit Products</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to="/admin/orders">
+                  <NavDropdown.Item>View/Edit Orders</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to="/admin/users">
+                  <NavDropdown.Item>View/Edit Users</NavDropdown.Item>
+                </LinkContainer>
+                <NavDropdown.Divider />
+                <LinkContainer to="/profile">
+                  <NavDropdown.Item>Admin Profile</NavDropdown.Item>
+                </LinkContainer>
+                <Link
+                  className="dropdown-item"
+                  to="#signout"
+                  onClick={signOutHendler}
+                >
+                  Sign Out
+                </Link>
+              </NavDropdown>
             )}
           </Nav>
         </Container>

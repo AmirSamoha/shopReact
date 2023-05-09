@@ -24,6 +24,9 @@ import OrderHistoryScreen from "./screen/OrderHistoryScreen";
 import ProfileScreen from "./screen/ProfileScreen";
 import ResetpasswordScreen from "./screen/ResetpasswordScreen";
 import SearchScreen from "./screen/SearchScreen";
+import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
+import ProductListScreen from "./screen/ProductListScreen";
 
 
 function App() {
@@ -44,7 +47,7 @@ function App() {
               <Route path="/shipping" element={<ShippingAddressScreen />} />
               <Route path="/payment" element={<PaymentMethodScreen />} />
               <Route path="/placeorder" element={<PlaceOrderScreen />} />
-              <Route path="/orderhistory" element={<OrderHistoryScreen />} />
+              <Route path="/orderhistory" element={<ProtectedRoute> <OrderHistoryScreen /> </ProtectedRoute>} />
               <Route path="/products/men" element={<MenProducts />} />
               <Route path="/products/men/shirts" element={<MenShirtProducts />} />
               <Route path="/products/men/pants" element={<MenPantsScreen />} />
@@ -53,8 +56,9 @@ function App() {
               <Route path="/products/women/pants" element={<WomenPantsProducts />} />
               <Route path="/products/women/shirts" element={<WomenShirtProducts />} />
               <Route path="/products/women/shoes" element={<WomenShoesProducts />} />
-              <Route path="/order/:id" element={<OrderScreen />} />
-              <Route path="/profile" element={<ProfileScreen />} />
+              <Route path="/order/:id" element={<ProtectedRoute> <OrderScreen /> </ProtectedRoute> } /> 
+              <Route path="/profile" element={<ProtectedRoute> <ProfileScreen /> </ProtectedRoute> } />
+              <Route path="/admin/products" element={<AdminRoute> <ProductListScreen /></AdminRoute>} />
               <Route path="/reset-password" element={<ResetpasswordScreen />} />
               <Route path="/search" element={<SearchScreen />} />
               <Route path="/" element={<HomeScreen />} />

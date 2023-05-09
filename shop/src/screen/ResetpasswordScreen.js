@@ -53,11 +53,31 @@ const ResetpasswordScreen = () => {
     setRandomCode(generateCode(5));
   }, []);
 
-  const sendCode = () => {
-    // if (email !== userInfo.email) {
-    //   toast.error("Email is not valid");
-    //   return;
-    // } else {
+  // const sendCode = () => { //  לוודא שהמתתמש קיים במערכת לשלוח את המייל בפוסט
+
+  //     setValidEmail(true);
+  //     window.Email.send({
+  //       //פונקציה מוכנה של אלסטיק מייל שיחזור הסיסמא
+  //       Host: "smtp.elasticemail.com",
+  //       Username: `${process.env.REACT_APP_MAIL_USERNAME}`,
+  //       Password: `${process.env.REACT_APP_MAIL_PASSWORD}`,
+  //       To: email,
+  //       From: `${process.env.REACT_APP_MAIL_USERNAME}`,
+  //       Subject: "Code For Password Reset",
+  //       Body: `Your Code Is: ${randomCode}`,
+  //     });
+  //   // }
+  // };
+
+  //ניסוי
+  const sendCode = async (e) => {
+    //  לוודא שהמתתמש קיים במערכת לשלוח את המייל בפוסט
+    e.preventDefault();
+    try {
+      const { data } = await axios.post("/api/users/configmail", {
+        email,
+      }); // נעביר את הפרמטרים לבקשה לצד שרת
+      console.log(data)
       setValidEmail(true);
       window.Email.send({
         //פונקציה מוכנה של אלסטיק מייל שיחזור הסיסמא
@@ -69,7 +89,10 @@ const ResetpasswordScreen = () => {
         Subject: "Code For Password Reset",
         Body: `Your Code Is: ${randomCode}`,
       });
-    // }
+    } catch (err) {
+      toast.error("username or email already exists");
+    }
+
   };
 
   const codeCheck = () => {
@@ -97,7 +120,7 @@ const ResetpasswordScreen = () => {
           // נשלח בקשה לנתיב זה
           "/api/users/reset-password",
           { password }, //בגוף הבקשה נשלח את הסיסמא כדי שנוכל לעדכן אותה במסד נתונים
-        //   { headers: { authorization: `Bearer ${userInfo.token}` } } //נשלח גם את הטוקן לאמת את המשתמש
+          { headers: { authorization: `Bearer ${userInfo.token}` } } //נשלח גם את הטוקן לאמת את המשתמש
         );
 
         dispatch({
@@ -118,6 +141,7 @@ const ResetpasswordScreen = () => {
       }
     }
   };
+  
   return (
     <div className="container small-container">
       <Helmet>
@@ -125,7 +149,7 @@ const ResetpasswordScreen = () => {
       </Helmet>
 
       <h1 className="my-3">reset password</h1>
-      <ToastContainer position='top-left' limit={5}/>
+      <ToastContainer position="top-center" limit={1} />
 
       <ListGroup>
         <ListGroup.Item>

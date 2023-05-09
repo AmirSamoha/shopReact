@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { getError } from "../utilsFront";
 import axios from "axios";
 import ListGroup from "react-bootstrap/ListGroup";
@@ -122,6 +122,7 @@ const ProfileScreen = () => {
       <Helmet>
         <title>{userInfo.username} Profile</title>
       </Helmet>
+      <ToastContainer position='top-center' limit={1}/>
 
       <h1 className="my-3">{userInfo.username}'s Profile</h1>
       <ListGroup>

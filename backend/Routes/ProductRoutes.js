@@ -1,5 +1,6 @@
 import express from "express";
 import Product from "../Models/ProductModel.js";
+import { isAuth, isAdmin } from "../utils.js";
 
 const productRouter = express.Router();
 
@@ -11,7 +12,8 @@ productRouter.get("/", async (req, res) => {
 const PAGE_SIZE = 4;
 
 productRouter.get("/search", async (req, res) => {
-  const { query } = req;
+  const { query } = req; // מתוך הבקשה נשלוף רק את הקאורי כלומר המפתחות בנתיב יו אר אל
+  //נשלוף את כל מה שיש בפנים ונגדיר שהשם יהיה מה שהגיע  או מחזורת ריקה
   const pageSize = query.pageSize || PAGE_SIZE;
   const page = query.page || 1;
   const category = query.category || "";
@@ -24,30 +26,34 @@ productRouter.get("/search", async (req, res) => {
     searchQuery && searchQuery !== "all"
       ? {
           name: {
-            $regex: searchQuery,
-            $options: "i",
+            $regex: searchQuery, //פניה למונגו די בי 
+            $options: "i", // כדי שלא יבדיל בין אותיות קטנות או גדולות נוכל לחפש מוצר בכל הדרכים
           },
         }
       : {};
+
   const categoryFilter = category && category !== "all" ? { category } : {};
+
   const ratingFilter =
     rating && rating !== "all"
       ? {
           rating: {
-            $gte: Number(rating),
+            $gte: Number(rating), // אופרטור למונגו דיבי שיוצר ךזהות את המוצרים עם רייטינג של גדול מ ושווה ל 
           },
         }
       : {};
+
   const priceFilter =
     price && price !== "all"
       ? {
           // 1-50
           price: {
-            $gte: Number(price.split("-")[0]),
-            $lte: Number(price.split("-")[1]),
+            $gte: Number(price.split("-")[0]),// גדול מ1 ושווה ל1
+            $lte: Number(price.split("-")[1]),// קטן מ50 ושווה ל50 
           },
         }
       : {};
+
   const sortOrder =
     order === "featured"
       ? { featured: -1 }
@@ -108,6 +114,22 @@ productRouter.get("/product/:id", async (req, res) => {
   } else {
     res.status(404).send({ massage: "Product not found by id" });
   }
+});
+
+//קבלת כל המוצרים בעמוד האדמין 
+productRouter.get("/admin", isAuth, isAdmin, async (req, res) => {
+  const { query } = req;
+  const page = query.page || 1;
+  const pageSize = query.pageSize || PAGE_SIZE;
+
+  const products = await Product.find().skip(pageSize * (page - 1)).limit(pageSize);
+  const countProducts = await Product.countDocuments();
+  res.send({
+    products,
+    countProducts,
+    page,
+    pages: Math.ceil(countProducts / pageSize),
+  })
 });
 
 export default productRouter;

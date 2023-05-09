@@ -8,7 +8,7 @@ import MessageBox from "../components/MessaseBox";
 import { Helmet } from "react-helmet-async";
 import { Card, Col, ListGroup, Row } from "react-bootstrap";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -146,6 +146,8 @@ const OrderScreen = () => {
         <title>Order {orderId}</title>
       </Helmet>
       <h1 className="my-3">Order {orderId}</h1>
+      <ToastContainer position='top-center' limit={1}/>
+
       <Row>
         <Col md={8}>
           <Card className="mb-3">
