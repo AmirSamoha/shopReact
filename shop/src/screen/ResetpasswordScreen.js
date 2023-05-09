@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useReducer, useState } from "react";
 import { Store } from "../Store";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { getError } from "../utilsFront";
 import { Helmet } from "react-helmet-async";
-import { Button, Form, ListGroup, ToastContainer } from "react-bootstrap";
+import { Button, Form, ListGroup } from "react-bootstrap";
 import QRCode from "react-qr-code";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -22,15 +23,15 @@ const reducer = (state, action) => {
 };
 
 const ResetpasswordScreen = () => {
-  const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { userInfo } = state;
+  const { dispatch: ctxDispatch } = useContext(Store);
+  //const { userInfo } = state;
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [code, setCode] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [randomCode, setRandomCode] = useState("");
-
   const [validEmail, setValidEmail] = useState(false);
   const [validCode, setValidCode] = useState(false);
 
@@ -74,9 +75,7 @@ const ResetpasswordScreen = () => {
     //  לוודא שהמתתמש קיים במערכת לשלוח את המייל בפוסט
     e.preventDefault();
     try {
-      const { data } = await axios.post("/api/users/configmail", {
-        email,
-      }); // נעביר את הפרמטרים לבקשה לצד שרת
+      const { data } = await axios.post("/api/users/configmail", {email,}); // נעביר את הפרמטרים לבקשה לצד שרת
       console.log(data)
       setValidEmail(true);
       window.Email.send({
@@ -90,7 +89,7 @@ const ResetpasswordScreen = () => {
         Body: `Your Code Is: ${randomCode}`,
       });
     } catch (err) {
-      toast.error("username or email already exists");
+      toast.error(getError(err));
     }
 
   };
@@ -119,19 +118,16 @@ const ResetpasswordScreen = () => {
         const { data } = await axios.put(
           // נשלח בקשה לנתיב זה
           "/api/users/reset-password",
-          { password }, //בגוף הבקשה נשלח את הסיסמא כדי שנוכל לעדכן אותה במסד נתונים
-          { headers: { authorization: `Bearer ${userInfo.token}` } } //נשלח גם את הטוקן לאמת את המשתמש
+          { password, email }, //בגוף הבקשה נשלח את הסיסמא כדי שנוכל לעדכן אותה במסד נתונים
         );
 
-        dispatch({
-          type: "UPDATE_SUCCESS",
-        });
-        ctxDispatch({ type: "USER_SIGNIN", payload: data });
-        localStorage.setItem("userInfo", JSON.stringify(data));
-        toast.success("Password Updated Successfully");
+        dispatch({type: "UPDATE_SUCCESS",});
+        ctxDispatch({ type: "USER_SIGNOUT", payload: data });
+        //localStorage.setItem("userInfo", JSON.stringify(data));
+        toast.success("Password Updated Successfully"); 
 
         setTimeout(() => {
-          window.location.href = "/profile";
+          navigate("/signin");
         }, 1500);
       } catch (err) {
         dispatch({
@@ -149,7 +145,7 @@ const ResetpasswordScreen = () => {
       </Helmet>
 
       <h1 className="my-3">reset password</h1>
-      <ToastContainer position="top-center" limit={1} />
+      <ToastContainer position='top-center' limit={1}/>
 
       <ListGroup>
         <ListGroup.Item>

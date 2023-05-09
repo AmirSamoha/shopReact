@@ -92,19 +92,19 @@ userRouter.put("/profile", isAuth, async (req, res) => {
 
 //  בקשה לאיפוס סיסמא שמהמשתמש לא מחובר
 userRouter.put("/reset-password", async (req, res) => {
-  const user = await User.findOne({ email: req.body.email });
-  if (user) {
+  const isMail = await User.findOne({ email: req.body.email });
+  if (isMail) {
     if (req.body.password) {
-      user.password = bcrypt.hashSync(req.body.password, 6);
+      isMail.password = bcrypt.hashSync(req.body.password, 6);
     }
 
-    const updatedUser = await user.save();
+    const updatedPassUser = await isMail.save();
     res.send({
-      _id: updatedUser._id,
-      username: updatedUser.username,
-      email: updatedUser.email,
+      _id: updatedPassUser._id,
+      username: updatedPassUser.username,
+      email: updatedPassUser.email,
       isAdmin: false,
-      token: generateToken(updatedUser),
+      //token: generateToken(updatedPassUser),
     });
   } else {
     res.status(404).send({ message: "User not found" });
