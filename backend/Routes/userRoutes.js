@@ -91,23 +91,51 @@ userRouter.put("/profile", isAuth, async (req, res) => {
 });
 
 //  בקשה לאיפוס סיסמא שמהמשתמש לא מחובר
-userRouter.put("/reset-password", async (req, res) => {
-  const isMail = await User.findOne({ email: req.body.email });
-  if (isMail) {
-    if (req.body.password) {
-      isMail.password = bcrypt.hashSync(req.body.password, 6);
-    }
+// userRouter.put("/reset-password", async (req, res) => {
+//   const isMail = await User.findOne({ email: req.body.email });
+//   if (isMail) {
+//     if (req.body.password) {
+//       isMail.password = bcrypt.hashSync(req.body.password, 6);
+//     }
 
-    const updatedPassUser = await isMail.save();
-    res.send({
-      _id: updatedPassUser._id,
-      username: updatedPassUser.username,
-      email: updatedPassUser.email,
-      isAdmin: false,
-      //token: generateToken(updatedPassUser),
-    });
+//     const updatedPassUser = await isMail.save();
+
+//     res.send({
+//       _id: updatedPassUser._id,
+//       username: updatedPassUser.username,
+//       email: updatedPassUser.email,
+//       isAdmin: false,
+//       //token: generateToken(updatedPassUser),
+//     });
+//   } else {
+//     res.status(404).send({ message: "User not found" });
+//   }
+// });
+
+
+//  בקשה לאיפוס סיסמא שמהמשתמש לא מחובר + לא יהיה ניתן להשתמש באותה סיסמא
+
+userRouter.put("/reset-password", async (req, res) => {
+  const user = await User.findOne({ email: req.body.email });
+  console.log(user);
+  console.log(req.body.password);
+  console.log(user.password);
+  const match = await bcrypt.compare(req.body.password, user.password);
+  console.log(match);
+
+  if (match) {
+    res
+      .status(400)
+      .send({message: "You cannot use your old password as the new password.",});
   } else {
-    res.status(404).send({ message: "User not found" });
+    user.password = await bcrypt.hash(req.body.password, 6); // נשמור את הסיסמא החדשה במשתנה מהמסד נתונים
+    const updateUserPassword = await user.save();
+    res.send({
+      _id: updateUserPassword._id,
+      username: updateUserPassword.username,
+      email: updateUserPassword.email,
+      isAdmin: false,
+    });
   }
 });
 

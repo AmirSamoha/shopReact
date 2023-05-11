@@ -117,7 +117,7 @@ productRouter.get("/product/:id", async (req, res) => {
 });
 
 //קבלת כל המוצרים בעמוד האדמין 
-productRouter.get("/admin", isAuth, isAdmin, async (req, res) => {
+productRouter.get('/admin', isAuth, isAdmin, async (req, res) => {
   const { query } = req;
   const page = query.page || 1;
   const pageSize = query.pageSize || PAGE_SIZE;

@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import MessageBox from "../components/MessaseBox";
 import LoadingBox from "../components/LoadingBox";
+import { getError } from "../utilsFront";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -25,17 +26,15 @@ const reducer = (state, action) => {
 };
 
 const ProductListScreen = () => {
-  const initinalstate = { loading: true, error: "" };
-
-  const [{ loading, error, products, pages }, dispatch] = useReducer(
-    reducer,
-    initinalstate
-  );
-
   const { state } = useContext(Store);
   const { userInfo } = state;
 
-  const { search, pathname } = useLocation();
+  const [{ loading, error, products, pages }, dispatch] = useReducer(reducer, {
+    loading: true,
+    error: "",
+  });
+
+  const { search } = useLocation();
   const sp = new URLSearchParams(search);
   const page = sp.get("page") || 1;
 
@@ -44,11 +43,13 @@ const ProductListScreen = () => {
       try {
         //בקשה לצד שרת לקבלת כל המוצרים של עמוד האדמין וגם נקבל את מספר העמוד
         const { data } = await axios.get(`/api/products/admin?page=${page}`, {
-          headers: { Authorization: `Bearer ${userInfo.token}` },
+          headers: { authorization: `Bearer ${userInfo.token}` },
         });
 
         dispatch({ type: "FETCH_SUCCESS", payload: data });
-      } catch (err) {}
+      } catch (err) {
+        dispatch({ type: "FETCH_FAIL", payload: getError(err) });
+      }
     };
     fetchData();
   }, [page, userInfo]);

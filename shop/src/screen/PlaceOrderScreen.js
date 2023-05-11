@@ -52,6 +52,11 @@ const PlaceOrderScreen = () => {
   });
 
   const placeOrderHandler = async () => {
+    if (cart.paymentMethod !== "PayPal"){
+      alert("you cant use this payment");
+      return;
+    }
+    
     try {
       dispatch({ type: "CREATE_REQUEST" });
 

@@ -51,10 +51,7 @@ const OrderScreen = () => {
     loadingPay: false,
   };
 
-  const [{ loading, order, error,successPay,loadingPay }, dispatch] = useReducer(
-    reducer,
-    initialState
-  );
+  const [{ loading, order, error,successPay,loadingPay }, dispatch] = useReducer(reducer,initialState);
 
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer(); //רדוסר מובנה של פייפל
 

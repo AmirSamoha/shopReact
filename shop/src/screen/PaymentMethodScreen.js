@@ -84,7 +84,7 @@ const PaymentMethodScreen = () => {
               type="radio"
               isValid
               value="Apple Pay"
-              //checked={paymentMethodName === "Apple Pay"}
+              checked={paymentMethodName === "Apple Pay"}
               onChange={(e) => setPaymentMethodName(e.target.value)}
               name="payment"
             ></Form.Check.Input>
@@ -99,7 +99,7 @@ const PaymentMethodScreen = () => {
               type="radio"
               isValid
               value="Google Pay"
-              //checked={paymentMethodName === "Google Pay"}
+              checked={paymentMethodName === "Google Pay"}
               onChange={(e) => setPaymentMethodName(e.target.value)}
               name="payment"
             ></Form.Check.Input>
