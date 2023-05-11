@@ -11,6 +11,26 @@ productRouter.get("/", async (req, res) => {
 
 const PAGE_SIZE = 4;
 
+//קבלת כל המוצרים בעמוד האדמין 
+productRouter.get('/admin', isAuth, isAdmin, async (req, res) => {
+  const { query } = req;
+  const page = query.page || 1;
+  const pageSize = query.pageSize || PAGE_SIZE;
+
+  const products = await Product.find()
+  .skip(pageSize * (page - 1))
+  .limit(pageSize);
+
+  const countProducts = await Product.countDocuments();
+
+  res.send({
+    products,
+    countProducts,
+    page,
+    pages: Math.ceil(countProducts / pageSize),
+  })
+});
+
 productRouter.get("/search", async (req, res) => {
   const { query } = req; // מתוך הבקשה נשלוף רק את הקאורי כלומר המפתחות בנתיב יו אר אל
   //נשלוף את כל מה שיש בפנים ונגדיר שהשם יהיה מה שהגיע  או מחזורת ריקה
@@ -91,6 +111,7 @@ productRouter.get("/search", async (req, res) => {
   });
 });
 
+//בקשות ליבוא את הקטגוריות מתוך המסד נתונים
 productRouter.get("/categories", async (req, res) => {
   const categories = await Product.find().distinct("category");
   res.send(categories);
@@ -116,20 +137,6 @@ productRouter.get("/product/:id", async (req, res) => {
   }
 });
 
-//קבלת כל המוצרים בעמוד האדמין 
-productRouter.get('/admin', isAuth, isAdmin, async (req, res) => {
-  const { query } = req;
-  const page = query.page || 1;
-  const pageSize = query.pageSize || PAGE_SIZE;
 
-  const products = await Product.find().skip(pageSize * (page - 1)).limit(pageSize);
-  const countProducts = await Product.countDocuments();
-  res.send({
-    products,
-    countProducts,
-    page,
-    pages: Math.ceil(countProducts / pageSize),
-  })
-});
 
 export default productRouter;

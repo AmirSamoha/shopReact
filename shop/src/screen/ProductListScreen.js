@@ -26,13 +26,13 @@ const reducer = (state, action) => {
 };
 
 const ProductListScreen = () => {
-  const { state } = useContext(Store);
-  const { userInfo } = state;
-
   const [{ loading, error, products, pages }, dispatch] = useReducer(reducer, {
     loading: true,
     error: "",
   });
+
+  const { state } = useContext(Store);
+  const { userInfo } = state;
 
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
@@ -49,7 +49,7 @@ const ProductListScreen = () => {
         dispatch({ type: "FETCH_SUCCESS", payload: data });
       } catch (err) {
         dispatch({ type: "FETCH_FAIL", payload: getError(err) });
-      }
+      };
     };
     fetchData();
   }, [page, userInfo]);
@@ -67,6 +67,7 @@ const ProductListScreen = () => {
             <thead>
               <tr>
                 <th>PRODUCT ID</th>
+                <th>GANDER</th>
                 <th>PRODUCT NAME</th>
                 <th>PRICE</th>
                 <th>CATEGORY</th>
@@ -77,8 +78,9 @@ const ProductListScreen = () => {
               {products.map((product) => (
                 <tr key={product._id}>
                   <td>{product._id}</td>
+                  <td>{product.gander}</td>
                   <td>{product.name}</td>
-                  <td>{product.price}</td>
+                  <td>${product.price}</td>
                   <td>{product.category}</td>
                   <td>{product.brand}</td>
                 </tr>

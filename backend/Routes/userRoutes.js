@@ -40,7 +40,7 @@ userRouter.post("/signup", async (req, res) => {
       lastName: req.body.lastName,
       username: req.body.username,
       email: req.body.email,
-      password: bcrypt.hashSync(req.body.password),
+      password: bcrypt.hashSync(req.body.password), //שמירת הסיסמא עם גיבוב לסיסמא
     });
     const user = await newUser.save(); // נשמור את המשתמש בדאטא בייס
     res.send({
@@ -130,11 +130,14 @@ userRouter.put("/reset-password", async (req, res) => {
   } else {
     user.password = await bcrypt.hash(req.body.password, 6); // נשמור את הסיסמא החדשה במשתנה מהמסד נתונים
     const updateUserPassword = await user.save();
+
     res.send({
       _id: updateUserPassword._id,
       username: updateUserPassword.username,
       email: updateUserPassword.email,
       isAdmin: false,
+      //token: generateToken(updateUserPassword),
+
     });
   }
 });

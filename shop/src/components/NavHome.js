@@ -191,7 +191,7 @@ const NavHome = (props) => {
             )}
             {/** נוובר שיוצג רק לאדמין */}
             {userInfo?.isAdmin && (
-              <NavDropdown title="Admin" id="admin-nav-dropdown">
+              <NavDropdown title="Admin" drop="start" id="dropdown-button-drop-start">
                 <LinkContainer to="/admin/products">
                   <NavDropdown.Item>Add/Edit Products</NavDropdown.Item>
                 </LinkContainer>

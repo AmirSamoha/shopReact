@@ -20,7 +20,7 @@ export const generateToken = (user) => {
   );
 };
 
-//פונקציה שנעביר אותה בבקשת אקיוס מהצד שרת
+// פונקציה שנעביר אותה בבקשת אקיוס מהצד שרת שנקבל בבקשת צד לקוח
 export const isAuth = (req, res, next) => {
   const authorization = req.headers.authorization;
   if (authorization) {
