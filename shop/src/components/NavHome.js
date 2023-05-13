@@ -166,7 +166,7 @@ const NavHome = (props) => {
             )}
             {/** נוובר לרישום המשתמש */}
             {userInfo?.isAdmin === false ? (
-              <NavDropdown title={userInfo?.username} id="basic-nav-dropdown">
+              <NavDropdown title={userInfo?.username} drop="start" id="dropdown-button-drop-start">
                 <LinkContainer to="/profile">
                   <NavDropdown.Item>User Profile</NavDropdown.Item>
                 </LinkContainer>

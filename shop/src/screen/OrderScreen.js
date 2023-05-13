@@ -9,6 +9,7 @@ import { Helmet } from "react-helmet-async";
 import { Card, Col, ListGroup, Row } from "react-bootstrap";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { ToastContainer, toast } from "react-toastify";
+import Googlepay from "../components/Googlepay";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -253,7 +254,9 @@ const OrderScreen = () => {
                           onApprove={onApprove}
                           onError={onError}
                         ></PayPalButtons>
+                        <Googlepay />
                       </div>
+                      
                     )}
                     {loadingPay && <LoadingBox />}
                   </ListGroup.Item>

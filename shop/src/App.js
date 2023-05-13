@@ -27,6 +27,7 @@ import SearchScreen from "./screen/SearchScreen";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
 import ProductListScreen from "./screen/ProductListScreen";
+import ProductEditScreen from "./screen/ProductEditScreen";
 
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
               <Route path="/order/:id" element={<ProtectedRoute> <OrderScreen /> </ProtectedRoute> } /> 
               <Route path="/profile" element={<ProtectedRoute> <ProfileScreen /> </ProtectedRoute> } />
               <Route path="/admin/products" element={<AdminRoute> <ProductListScreen /></AdminRoute>} />
+              <Route path="/admin/product/:id" element={<AdminRoute> <ProductEditScreen /> </AdminRoute>} />
               <Route path="/reset-password" element={<ResetpasswordScreen />} />
               <Route path="/search" element={<SearchScreen />} />
               <Route path="/" element={<HomeScreen />} />

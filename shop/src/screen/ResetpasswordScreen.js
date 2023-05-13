@@ -4,7 +4,6 @@ import { toast, ToastContainer } from "react-toastify";
 import { getError } from "../utilsFront";
 import { Helmet } from "react-helmet-async";
 import { Button, Form, ListGroup } from "react-bootstrap";
-import QRCode from "react-qr-code";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -166,7 +165,6 @@ const ResetpasswordScreen = () => {
               <Button
                 type="button"
                 onClick={sendCode}
-                // disabled={!email.length || email !== userInfo.email}
               >
                 Send Code
               </Button>
@@ -175,7 +173,7 @@ const ResetpasswordScreen = () => {
           {validEmail && (
             <form>
               <Form.Group className="mb-3" controlId="code">
-                <Form.Label>Check Email For Code / Scan The QR:</Form.Label>
+                <Form.Label>Check Email For Code:</Form.Label>
                 <div
                   style={{
                     height: "auto",
@@ -184,14 +182,6 @@ const ResetpasswordScreen = () => {
                     width: "100%",
                   }}
                 >
-                  <QRCode
-                    size={256}
-                    style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                    value={randomCode}
-                    viewBox={`0 0 256 256`}
-                    fgColor="gray"
-                    bgColor="#000"
-                  />
                 </div>
               </Form.Group>
               <Form.Group className="mb-3" controlId="code">

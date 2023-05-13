@@ -62,7 +62,7 @@ userRouter.post("/configmail", async (req, res) => {
   if (userExist) {
     res.send({
       email: userExist.email,
-      token: generateToken(userExist),
+      //token: generateToken(userExist),
     });
   } else {
     res.status(404).send({ message: "this mail not exists" });
@@ -124,9 +124,7 @@ userRouter.put("/reset-password", async (req, res) => {
   console.log(match);
 
   if (match) {
-    res
-      .status(400)
-      .send({message: "You cannot use your old password as the new password.",});
+    res.status(400).send({message: "You cannot use your old password as the new password.",});
   } else {
     user.password = await bcrypt.hash(req.body.password, 6); // נשמור את הסיסמא החדשה במשתנה מהמסד נתונים
     const updateUserPassword = await user.save();
