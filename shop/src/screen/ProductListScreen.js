@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useReducer } from "react";
 import { Store } from "../Store";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import MessageBox from "../components/MessaseBox";
+import MessageBox from "../components/MessageBox";
 import LoadingBox from "../components/LoadingBox";
 import { getError } from "../utilsFront";
 import { Button, Col, Row } from "react-bootstrap";

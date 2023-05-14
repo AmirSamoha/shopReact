@@ -3,7 +3,7 @@ import React, { useEffect, useReducer } from "react";
 import { Col, Row } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
 import LoadingBox from "../../components/LoadingBox";
-import MessageBox from "../../components/MessaseBox";
+import MessageBox from "../../components/MessageBox";
 import Products from "../../components/Products";
 import { getError } from "../../utilsFront";
 import reducer from "../Men_categories/reducer";

@@ -5,8 +5,9 @@ import productRouter from "./Routes/ProductRoutes.js";
 import seedRouter from "./Routes/seedRoutes.js";
 import userRouter from "./Routes/userRoutes.js";
 import orderRouter from "./Routes/orderRoutes.js";
+import uploadRouter from "./Routes/uploadRoutes.js";
 
-
+ 
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ app.use('/api/products', productRouter) ;
 app.use('/api/seed', seedRouter);
 app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);
+app.use('/api/upload', uploadRouter);
 
 
 app.use((err, req, res, next) => {

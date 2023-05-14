@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { Store } from "../Store";
 import { Col, ListGroup, Row, Button,Card } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import MessageBox from "../components/MessaseBox";
+import MessageBox from "../components/MessageBox";
 // import axios from "axios";
 
 const CartScreen = () => {

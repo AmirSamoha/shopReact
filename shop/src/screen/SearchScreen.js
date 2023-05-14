@@ -7,7 +7,7 @@ import { Helmet } from "react-helmet-async";
 import {Row, Col, Button} from "react-bootstrap";
 import LoadingBox from "../components/LoadingBox";
 import Rating from "../components/Rating";
-import MessageBox from "../components/MessaseBox";
+import MessageBox from "../components/MessageBox";
 import Products from "../components/Products";
 
 const reducer = (state, action) => {

@@ -4,7 +4,7 @@ import { Store } from "../Store";
 import axios from "axios";
 import { getError } from "../utilsFront";
 import { Button } from "react-bootstrap";
-import MessageBox from "../components/MessaseBox";
+import MessageBox from "../components/MessageBox";
 import LoadingBox from "../components/LoadingBox";
 import { Helmet } from "react-helmet-async";
 

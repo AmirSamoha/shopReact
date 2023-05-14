@@ -38,7 +38,7 @@ productRouter.put("/product/:id", isAuth, isAdmin, async (req, res) => {
     product.slug = req.body.slug;
     product.price = req.body.price;
     product.image = req.body.image;
-    // product.images = req.body.images;
+    product.images = req.body.images;
     product.category = req.body.category;
     product.gander = req.body.gander;
     product.brand = req.body.brand;
@@ -57,7 +57,7 @@ const PAGE_SIZE_ADMIN = 5;
 
 //קבלת כל המוצרים בעמוד האדמין
 productRouter.get("/admin", isAuth, isAdmin, async (req, res) => {
-  const { query } = req;
+  const { query } = req; // מתוך הבקשה נשלוף רק את הקאורי כלומר המפתחות בנתיב יו אר אל
   const page = query.page || 1;
   const pageSize = query.pageSize || PAGE_SIZE_ADMIN;
 

@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { getError } from "../utilsFront";
 import LoadingBox from "../components/LoadingBox";
-import MessageBox from "../components/MessaseBox";
+import MessageBox from "../components/MessageBox";
 import { Helmet } from "react-helmet-async";
 import { Card, Col, ListGroup, Row } from "react-bootstrap";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";

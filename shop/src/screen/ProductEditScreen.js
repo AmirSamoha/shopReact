@@ -4,9 +4,9 @@ import { Store } from "../Store";
 import axios from "axios";
 import { getError } from "../utilsFront";
 import { ToastContainer, toast } from "react-toastify";
-import { Button, Container, Form } from "react-bootstrap";
+import { Button, Card, Container, Form, ListGroup } from "react-bootstrap";
 import LoadingBox from "../components/LoadingBox";
-import MessageBox from "../components/MessaseBox";
+import MessageBox from "../components/MessageBox";
 import { Helmet } from "react-helmet-async";
 
 const reducer = (state, action) => {
@@ -44,10 +44,8 @@ const ProductEditScreen = () => {
   const { userInfo } = state;
 
   const initialState = { loading: true, error: "" };
-  const [{ loading, error, loadingUpdate }, dispatch] = useReducer(
-    reducer,
-    initialState
-  );
+  const [{ loading, error, loadingUpdate, loadingUpload }, dispatch] =
+    useReducer(reducer, initialState);
 
   //נקבל את כל הפרמטרים של פרטי המוצר
   const [name, setName] = useState("");
@@ -60,6 +58,7 @@ const ProductEditScreen = () => {
   const [countInStock, setCountInStock] = useState("");
   const [brand, setBrand] = useState("");
   const [description, setDescription] = useState("");
+  const [selectedImage, setSelectedImage] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -123,8 +122,42 @@ const ProductEditScreen = () => {
     }
   };
 
+  const uploadFileHandler = async (e, forImages) => {
+    const file = e.target.files[0];
+    const bodyFormData = new FormData();
+    bodyFormData.append("file", file);
+    try {
+      dispatch({ type: "UPLOAD_REQUEST" });
+      const { data } = await axios.post("/api/upload", bodyFormData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: `Bearer ${userInfo.token}`,
+        },
+      });
+      dispatch({ type: "UPLOAD_SUCCESS" });
+
+      if (forImages) {
+        setImages([...images, data.secure_url]);
+      } else {
+        setImage(data.secure_url);
+      }
+      toast.success("Image uploaded successfully. click Update to apply it");
+    } catch (err) {
+      toast.error(getError(err));
+      dispatch({ type: "UPLOAD_FAIL", payload: getError(err) });
+    }
+  };
+
+  const deleteFileHandler = async (fileName, f) => {
+    console.log(fileName, f);
+    console.log(images);
+    console.log(images.filter((x) => x !== fileName));
+    setImages(images.filter((x) => x !== fileName));
+    toast.success("Image removed successfully. click Update to apply it");
+  };
+
   return (
-    <Container className="small-container">
+    <Container className="large-container">
       <Helmet>
         <title>Edit Product {productId}</title>
       </Helmet>
@@ -137,7 +170,7 @@ const ProductEditScreen = () => {
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
         <Form onSubmit={submitHandler}>
-          <Form.Group className="mb-3" controlId="name">
+          <Form.Group className="mb-3 form-group" controlId="name">
             <Form.Label>Name</Form.Label>
             <Form.Control
               value={name}
@@ -145,7 +178,7 @@ const ProductEditScreen = () => {
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="slug">
+          <Form.Group className="mb-3 form-group" controlId="slug">
             <Form.Label>Slug</Form.Label>
             <Form.Control
               value={slug}
@@ -153,7 +186,7 @@ const ProductEditScreen = () => {
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="name">
+          <Form.Group className="mb-3 form-group" controlId="name">
             <Form.Label>Price</Form.Label>
             <Form.Control
               value={price}
@@ -162,46 +195,56 @@ const ProductEditScreen = () => {
             />
           </Form.Group>
 
-          {/* <Form.Group className="mb-3" controlId="imageFile">
-                    <Form.Label>Change Main Image</Form.Label>
-                    <Form.Control type="file" onChange={uploadFileHandler} />
-                    {loadingUpload && <LoadingBox></LoadingBox>}
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="additionalImage">
-                    <Form.Label>All Product Images</Form.Label>
-                    {images.length === 0 && image.length === 0 && <MessageBox>No Images</MessageBox>}
-                    <Card>
-                        <ListGroup variant="flush">
-                            {
-                                <ListGroup.Item key={image}>
-                                    Main Photo:
-                                    <br></br>
-                                    <img src={image} alt={image} width="200" />
-                                </ListGroup.Item>
-                            }
-                            {images.map((x) => (
-                                <ListGroup.Item key={x}>
-                                    <Button variant="light" id="deleteImage" onClick={() => deleteFileHandler(x)}>
-                                        <i className="fa fa-times-circle"></i>
-                                    </Button>&nbsp;
-                                    {x.slice(62)}
-                                    <br></br>
-                                    <img src={x} alt={x} width="200" />
-                                </ListGroup.Item>
-                            ))}
-                        </ListGroup>
-                    </Card>
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="additionalImageFile">
-                    <Form.Label>Upload More Images</Form.Label>
-                    <Form.Control
-                        type="file"
-                        onChange={(e) => uploadFileHandler(e, true)}
-                    />
-                    {loadingUpload && <LoadingBox></LoadingBox>}
-                </Form.Group> */}
+          <Form.Group className="mb-3 form-group" controlId="imageFile">
+            <Form.Label>Change Main Image</Form.Label>
+            <Form.Control type="file" onChange={uploadFileHandler} />
+            {loadingUpload && <LoadingBox></LoadingBox>}
+          </Form.Group>
+          <Form.Group className="mb-3 form-group" controlId="additionalImage">
+            <Form.Label>All Product Images</Form.Label>
+            {images.length === 0 && image.length === 0 && (
+              <MessageBox>No Images</MessageBox>
+            )}
+            <Card>
+              <ListGroup variant="flush">
+                {
+                  <ListGroup.Item key={image}>
+                    Main Photo:
+                    <br></br>
+                    <img src={image} alt={image} width="200" />
+                  </ListGroup.Item>
+                }
+                {images.map((x) => (
+                  <ListGroup.Item key={x}>
+                    <Button
+                      variant="light"
+                      id="deleteImage"
+                      onClick={() => deleteFileHandler(x)}
+                    >
+                      <i className="fa fa-times-circle"></i>
+                    </Button>
+                    &nbsp;
+                    {x.slice(62)}
+                    <br></br>
+                    <img src={x} alt={x} width="200" />
+                  </ListGroup.Item>
+                ))}
+              </ListGroup>
+            </Card>
+          </Form.Group>
+          <Form.Group
+            className="mb-3 form-group"
+            controlId="additionalImageFile"
+          >
+            <Form.Label>Upload More Images</Form.Label>
+            <Form.Control
+              type="file"
+              onChange={(e) => uploadFileHandler(e, true)}
+            />
+            {loadingUpload && <LoadingBox></LoadingBox>}
+          </Form.Group>
 
-          <Form.Group className="mb-3" controlId="category">
+          <Form.Group className="mb-3 form-group" controlId="category">
             <Form.Label>Category</Form.Label>
             <Form.Select
               aria-label="Default select example"
@@ -219,7 +262,7 @@ const ProductEditScreen = () => {
               <option value="Home-And-Kitchen">Home And Kitchen</option>
             </Form.Select>
           </Form.Group>
-          <Form.Group className="mb-3" controlId="brand">
+          <Form.Group className="mb-3 form-group" controlId="brand">
             <Form.Label>Brand</Form.Label>
             <Form.Control
               value={brand}
@@ -227,7 +270,7 @@ const ProductEditScreen = () => {
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="gander">
+          <Form.Group className="mb-3 form-group" controlId="gander">
             <Form.Label>Gander</Form.Label>
             <Form.Select
               aria-label="Default select example"
@@ -240,7 +283,7 @@ const ProductEditScreen = () => {
               <option value="Women">Women</option>
             </Form.Select>
           </Form.Group>
-          <Form.Group className="mb-3" controlId="countInStock">
+          <Form.Group className="mb-3 form-group" controlId="countInStock">
             <Form.Label>Count In Stock</Form.Label>
             <Form.Control
               value={countInStock}
@@ -248,7 +291,7 @@ const ProductEditScreen = () => {
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="description">
+          <Form.Group className="mb-3 form-group" controlId="description">
             <Form.Label>Description</Form.Label>
             <Form.Control
               value={description}
@@ -256,7 +299,7 @@ const ProductEditScreen = () => {
               required
             />
           </Form.Group>
-          <div className="mb-3">
+          <div className="mb-3 form-group">
             <Button disabled={loadingUpdate} type="submit">
               Update
             </Button>

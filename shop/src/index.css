@@ -54,7 +54,7 @@ h1 {
   object-fit: fill;
 }
 
-.order-img{
+.order-img {
   max-width: 400px;
   max-height: 150px;
   object-fit: fill;
@@ -77,8 +77,6 @@ main {
   padding: 2rem;
   max-width: 90%;
 }
-
-
 
 .indexOfProduct {
   position: absolute;
@@ -103,29 +101,30 @@ main {
   /* text-align: -webkit-center; */
 }
 
-.large-container{
+.large-container {
   max-width: 50%;
   text-align: -webkit-center;
-  width: 80%; 
+  width: 80%;
   margin: 0 auto;
-
 }
 
-.checkout-steps{
+.checkout-steps {
   width: 1300px;
 }
 
-.checkout-steps > div { /* when the step in display */
+.checkout-steps > div {
+  /* when the step in display */
   border-bottom: 0.2rem solid #a0a0a0;
   color: #a0a0a0;
 }
-.checkout-steps > div.active { /* when the step in active */
+.checkout-steps > div.active {
+  /* when the step in active */
   border-bottom: 0.2rem solid #f08000;
   color: #f08000;
 }
 
 .form-group {
-  padding: 10px;
+  padding: 5px;
   justify-content: center;
   width: 25rem;
 }
@@ -141,6 +140,11 @@ main {
   text-align: center;
 }
 
+button.thumbnail {
+  padding: 0;
+}
 
-
-
+#deleteImage {
+  border-radius: 3px 3px 0px 0px;
+  color: rgb(249, 109, 109);
+}
