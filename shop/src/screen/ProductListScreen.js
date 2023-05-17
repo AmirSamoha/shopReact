@@ -28,6 +28,14 @@ const reducer = (state, action) => {
       return { ...state, loadingCreate: false };
     case "CREATE_FAIL":
       return { ...state, loadingCreate: false };
+    case "DELETE_REQUEST":
+      return { ...state, loadingDelete: true, successDelete: false };
+    case "DELETE_SUCCESS":
+      return { ...state, loadingDelete: false, successDelete: true };
+    case "DELETE_FAIL":
+      return { ...state, loadingDelete: false, successDelete: false };
+    case "DELETE_RESET":
+      return { ...state, loadingDelete: false, successDelete: false };
 
     default:
       return state;
@@ -37,11 +45,21 @@ const reducer = (state, action) => {
 const ProductListScreen = () => {
   const navigate = useNavigate();
 
-  const [{ loading, error, products, pages, loadingCreate }, dispatch] =
-    useReducer(reducer, {
-      loading: true,
-      error: "",
-    });
+  const [
+    {
+      loading,
+      error,
+      products,
+      pages,
+      loadingCreate,
+      loadingDelete,
+      successDelete,
+    },
+    dispatch,
+  ] = useReducer(reducer, {
+    loading: true,
+    error: "",
+  });
 
   const { state } = useContext(Store);
   const { userInfo } = state;
@@ -63,8 +81,12 @@ const ProductListScreen = () => {
         dispatch({ type: "FETCH_FAIL", payload: getError(err) });
       }
     };
-    fetchData();
-  }, [page, userInfo]);
+    if (successDelete) {
+      dispatch({ type: "DELETE_RESET" });
+    } else {
+      fetchData();
+    }
+  }, [page, userInfo, successDelete]);
 
   const createHandler = async () => {
     if (window.confirm("Are you sure want to create a new product?")) {
@@ -72,15 +94,32 @@ const ProductListScreen = () => {
         dispatch({ type: "CREATE_REQUEST" });
         const { data } = await axios.post(
           "/api/products",
-          {},
+          {}, // נשלח בגוף ההודעה אובייקט ריק ובצד שרת נגדיר את המוצר החדש עם שדות מובנים
           { headers: { Authorization: `Bearer ${userInfo.token}` } }
         );
         toast.success("product created successfully");
         dispatch({ type: "CREATE_SUCCESS" });
-        navigate(`/admin/product/${data.product._id}`);
+        navigate(`/admin/product/${data.product._id}`); // לאחר יצירת המוצר נעבור לדף של עריכת המוצר שיצרנו כעת
       } catch (err) {
         toast.error(getError(error));
         dispatch({ type: "CREATE_FAIL" });
+      }
+    }
+  };
+
+  const deleteHandler = async (product) => {
+    if (window.confirm("Are you sure you want to delete product?")) {
+      try {
+        await axios.delete(`/api/products/product/${product._id}`, {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        });
+        toast.success("product deleted successfully");
+        dispatch({ type: "DELETE_SUCCESS" });
+      } catch (err) {
+        toast.error(getError(error));
+        dispatch({
+          type: "DELETE_FAIL",
+        });
       }
     }
   };
@@ -101,6 +140,7 @@ const ProductListScreen = () => {
       </Row>
 
       {loadingCreate && <LoadingBox />}
+      {loadingDelete && <LoadingBox />}
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (
@@ -131,10 +171,18 @@ const ProductListScreen = () => {
                   <td>
                     <Button
                       type="button"
-                      variant="light"
+                      variant="info"
                       onClick={() => navigate(`/admin/product/${product._id}`)}
                     >
                       Edit
+                    </Button>
+                    &nbsp; {/**represents a non-breaking space */}
+                    <Button
+                      type="button"
+                      variant="danger"
+                      onClick={() => deleteHandler(product)}
+                    >
+                      Delete
                     </Button>
                   </td>
                 </tr>

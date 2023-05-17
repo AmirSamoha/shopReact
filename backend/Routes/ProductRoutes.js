@@ -11,13 +11,15 @@ productRouter.get("/", async (req, res) => {
 
 //בקשה ליצירת מוצר חדש
 productRouter.post("/", isAuth, isAdmin, async (req, res) => {
+  // נבדוק שיש טוקן למשתמש ושהוא אדמין
   const newProduct = new Product({
+    //יצירת מוצר חדש
     name: "sample name " + Date.now(), //נגדיר ברירת מחדל ותאריך ההוראה
     slug: "sample-name-" + Date.now(),
     image: "/images/p1.jpg",
     price: 0,
     category: "sample category",
-    gander:"sample gander",
+    gander: "sample gander",
     brand: "sample brand",
     countInStock: 0,
     rating: 0,
@@ -25,15 +27,16 @@ productRouter.post("/", isAuth, isAdmin, async (req, res) => {
     description: "sample description",
   });
 
-  const product = await newProduct.save();
-  res.send({ message: "Product Created", product });
+  const product = await newProduct.save(); // שמירת המוצר במסד נתונים
+  res.send({ message: "Product Created", product }); // ונחזיר את המוצר החדש לצד לקוח
 });
 
-//בקשה לעדכון מוצר קיים
+// בקשה לעדכון מוצר קיים על פי האיי די
 productRouter.put("/product/:id", isAuth, isAdmin, async (req, res) => {
-  const productId = req.params.id;
-  const product = await Product.findById(productId);
+  const productId = req.params.id; // נשלוף את האיי די מהנתיב יו אר אל
+  const product = await Product.findById(productId); // מצתא את המוצר לי איי די
   if (product) {
+    // אם המוצר קיים נעדכן את השדות השמורים לפי גוף הבקשה שנלח מהצד לקוח
     product.name = req.body.name;
     product.slug = req.body.slug;
     product.price = req.body.price;
@@ -51,6 +54,17 @@ productRouter.put("/product/:id", isAuth, isAdmin, async (req, res) => {
     res.status(404).send({ message: "Product Not Found" });
   }
 });
+
+//מחיקת מוצר
+productRouter.delete("/product/:id", isAuth, isAdmin, async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  if (product) {
+    await product.deleteOne();
+    res.send({ message: "Product Deleted" });
+  } else {
+    res.status(404).send({ message: "Product Not Found" });
+  }
+}); 
 
 const PAGE_SIZE_SEARCH = 4;
 const PAGE_SIZE_ADMIN = 5;

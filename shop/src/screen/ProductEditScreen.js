@@ -44,8 +44,8 @@ const ProductEditScreen = () => {
   const { userInfo } = state;
 
   const initialState = { loading: true, error: "" };
-  const [{ loading, error, loadingUpdate, loadingUpload }, dispatch] =
-    useReducer(reducer, initialState);
+
+  const [{ loading, error, loadingUpdate, loadingUpload }, dispatch] = useReducer(reducer, initialState);
 
   //נקבל את כל הפרמטרים של פרטי המוצר
   const [name, setName] = useState("");
@@ -58,17 +58,17 @@ const ProductEditScreen = () => {
   const [countInStock, setCountInStock] = useState("");
   const [brand, setBrand] = useState("");
   const [description, setDescription] = useState("");
-  const [selectedImage, setSelectedImage] = useState("");
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         dispatch({ type: "FETCH_REQUEST" });
 
-        //נבצע בקשה לשרת ונקבל את המוצר לפי המזהה שלו
+        //נבצע בקשה לשרת ונקבל את המוצר לפי המזהה שלו ונשמור את הנתונים בדאטא
         const { data } = await axios.get(`/api/products/product/${productId}`);
 
-        //ונגדיר לכל פרמטר את השדה שלו מהמידע שחוזר מהדאטא
+        // ונגדיר לכל פרמטר את השדה שלו מהמידע שחוזר מהדאטא כדי שנוכל ישירות להראות לאדמין את הנתונים בתרוך השדות אינפוט בצד לקוח
         setName(data.name);
         setSlug(data.slug);
         setPrice(data.price);
@@ -92,7 +92,7 @@ const ProductEditScreen = () => {
     try {
       dispatch({ type: "UPDATE_REQUEST" });
 
-      //נגדיר מוצר על פי המזהה שלו
+      //נגדיר מוצר על פי המזהה שלו ובעזרת פוט נוכל לעדכן את המוצר
       await axios.put(
         `/api/products/product/${productId}`,
         {
@@ -108,7 +108,7 @@ const ProductEditScreen = () => {
           countInStock,
           description,
         },
-        { headers: { Authorization: `Bearer ${userInfo.token}` } }
+        { headers: { authorization: `Bearer ${userInfo.token}` } }
       );
 
       dispatch({
@@ -122,9 +122,10 @@ const ProductEditScreen = () => {
     }
   };
 
-  const uploadFileHandler = async (e, forImages) => {
+  const uploadFileHandler = async (e, forImages) => { //e (אובייקט אירוע) ו-forImages (מדד בוליאני המציין אם ההעלאה מיועדת לתמונות)
     const file = e.target.files[0];
     const bodyFormData = new FormData();
+    console.log(bodyFormData)
     bodyFormData.append("file", file);
     try {
       dispatch({ type: "UPLOAD_REQUEST" });
@@ -189,7 +190,7 @@ const ProductEditScreen = () => {
           <Form.Group className="mb-3 form-group" controlId="name">
             <Form.Label>Price</Form.Label>
             <Form.Control
-              value={price}
+              value={`${price}$`}
               onChange={(e) => setPrice(e.target.value)}
               required
             />
