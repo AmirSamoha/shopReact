@@ -1,9 +1,14 @@
 import express from "express";
 import bcrypt from "bcryptjs";
 import User from "../Models/UserModel.js";
-import { isAuth, generateToken } from "../utils.js";
+import { isAuth,isAdmin, generateToken } from "../utils.js";
 
 const userRouter = express.Router();
+
+userRouter.get("/", isAuth, isAdmin, async (req, res) => {
+  const users = await User.find({});
+  res.send(users);
+});
 
 userRouter.post("/signin", async (req, res) => {
   const user = await User.findOne({ email: req.body.email }); //נגיד אם יש משתמש על פי האימייל שלו
@@ -112,7 +117,6 @@ userRouter.put("/profile", isAuth, async (req, res) => {
 //   }
 // });
 
-
 //  בקשה לאיפוס סיסמא שמהמשתמש לא מחובר + לא יהיה ניתן להשתמש באותה סיסמא
 
 userRouter.put("/reset-password", async (req, res) => {
@@ -124,7 +128,11 @@ userRouter.put("/reset-password", async (req, res) => {
   console.log(match);
 
   if (match) {
-    res.status(400).send({message: "You cannot use your old password as the new password.",});
+    res
+      .status(400)
+      .send({
+        message: "You cannot use your old password as the new password.",
+      });
   } else {
     user.password = await bcrypt.hash(req.body.password, 6); // נשמור את הסיסמא החדשה במשתנה מהמסד נתונים
     const updateUserPassword = await user.save();
@@ -135,7 +143,6 @@ userRouter.put("/reset-password", async (req, res) => {
       email: updateUserPassword.email,
       isAdmin: false,
       //token: generateToken(updateUserPassword),
-
     });
   }
 });

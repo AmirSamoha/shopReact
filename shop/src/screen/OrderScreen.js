@@ -6,7 +6,7 @@ import { getError } from "../utilsFront";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { Helmet } from "react-helmet-async";
-import { Card, Col, ListGroup, Row } from "react-bootstrap";
+import { Button, Card, Col, ListGroup, Row } from "react-bootstrap";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { ToastContainer, toast } from "react-toastify";
 import Googlepay from "../components/Googlepay";
@@ -27,6 +27,15 @@ function reducer(state, action) {
       return { ...state, loadingPay: false };
     case "PAY_RESET":
       return { ...state, loadingPay: false, successPay: false };
+    case "DELIVER_REQUEST":
+      return { ...state, loadingDeliver: true };
+    case "DELIVER_SUCCESS":
+      return { ...state, loadingDeliver: false, successDeliver: true };
+    case "DELIVER_FAIL":
+      return { ...state, loadingDeliver: false };
+    case "DELIVER_RESET":
+      return { ...state, loadingDeliver: false, successDeliver: false };
+
     default:
       return state;
   }
@@ -52,7 +61,106 @@ const OrderScreen = () => {
     loadingPay: false,
   };
 
-  const [{ loading, order, error,successPay,loadingPay }, dispatch] = useReducer(reducer,initialState);
+  const [
+    {
+      loading,
+      order,
+      error,
+      successPay,
+      loadingPay,
+      loadingDeliver,
+      successDeliver,
+    },
+    dispatch,
+  ] = useReducer(reducer, initialState);
+
+  const deliverOrderHandler = async () => {
+    try {
+      dispatch({ type: "DELIVER_REQUEST" });
+      const { data } = await axios.put(
+        `/api/orders/${order._id}/deliver`,
+        {},
+        {
+          headers: { authorization: `Bearer ${userInfo.token}` },
+        }
+      );
+      dispatch({ type: "DELIVER_SUCCESS", payload: data });
+console.log(data)
+      window.Email.send({
+        Host: "smtp.elasticemail.com",
+        Username: `${process.env.REACT_APP_MAIL_USERNAME}`,
+        Password: `${process.env.REACT_APP_MAIL_PASSWORD}`,
+        To: `${data.data.email}`,
+        From: `${process.env.REACT_APP_MAIL_USERNAME}`,
+        Subject: `Your order is on the way`,
+        Body: `
+    <div style="text-align:left;">
+    <h1>Order Delivered</h1>
+    <p>
+    Hey ${order.shippingAddress.fullName}, </p>
+    <p>Your order has been sent to the requested address.</p>
+    <p>The package should arrive in the next 14 days to your P.O box or postal office</p>
+    <h2>Shipping Address</h2>
+    <p>
+   ,${order.shippingAddress.fullName}<br/>
+    ,${order.shippingAddress.address}<br/>
+    ,${order.shippingAddress.city}<br/>
+    ,${order.shippingAddress.country}<br/>
+   ,${order.shippingAddress.postalCode}<br/>
+    </p>
+    <h2>[Order ${order._id}] (${order.createdAt
+          .toString()
+          .substring(0, 10)})</h2>
+    <table>
+    <thead>
+    <tr>
+    <td><strong>Product</strong></td>
+    <td><strong>Quantity</strong></td>
+    <td><strong align="right">Price</strong></td>
+    </thead>
+    <tbody>
+    ${order.orderItems
+      .map(
+        (item) => `
+      <tr>
+      <td>${item.name}</td>
+      <td align="center">${item.quantity}</td>
+      <td align="right"> $${item.price.toFixed(2)}</td>
+      </tr>
+    `
+      )
+      .join("\n")}
+    </tbody>
+    <tfoot>
+    <tr>
+    <td colspan="2">Items Price:</td>
+    <td align="right"> $${order.itemsPrice.toFixed(2)}</td>
+    </tr>
+    <tr>
+    <td colspan="2">Shipping Price:</td>
+    <td align="right"> $${order.shippingPrice.toFixed(2)}</td>
+    </tr>
+    <tr>
+    <td colspan="2"><strong>Total Price:</strong></td>
+    <td align="right"><strong> $${order.totalPrice.toFixed(2)}</strong></td>
+    </tr>
+    <tr>
+    <td colspan="2">Payment Method:</td>
+    <td align="right">${order.paymentMethod}</td>
+    </tr>
+    </table>
+    <hr/>
+    <p>
+    Thanks for shopping with us.
+    </p>
+    `,
+      });
+      toast.success("Order is delivered");
+    } catch (err) {
+      toast.error(getError(err));
+      dispatch({ type: "DELIVER_FAIL" });
+    }
+  };
 
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer(); //רדוסר מובנה של פייפל
 
@@ -82,6 +190,69 @@ const OrderScreen = () => {
           }
         );
         dispatch({ type: "PAY_SUCCESS", payload: data });
+        window.Email.send({
+          Host: "smtp.elasticemail.com",
+          Username: `${process.env.REACT_APP_MAIL_USERNAME}`,
+          Password: `${process.env.REACT_APP_MAIL_PASSWORD}`,
+          To: `${userInfo.email}`,
+          From: `${process.env.REACT_APP_MAIL_USERNAME}`,
+          Subject: `New order ${order._id}`,
+          Body: `<h1>Thanks for shopping with us</h1>
+          <p>
+          Hi ${order.shippingAddress.fullName},</p>
+          <p>We have finished processing your order.</p>
+          <h2>[Order ${order._id}] (${order.createdAt.toString().substring(0, 10)})</h2>
+          <table>
+          <thead>
+          <tr>
+          <td><strong>Product</strong></td>
+          <td><strong>Quantity</strong></td>
+          <td><strong align="right">Price</strong></td>
+          </thead>
+          <tbody>
+          ${order.orderItems.map((item) => `
+            <tr>
+            <td>${item.name}</td>
+            <td align="center">${item.quantity}</td>
+            <td align="right"> $${item.price.toFixed(2)}</td>
+            </tr>
+          `
+                  )
+                  .join('\n')}
+          </tbody>
+          <tfoot>
+          <tr>
+          <td colspan="2">Items Price:</td>
+          <td align="right"> $${order.itemsPrice.toFixed(2)}</td>
+          </tr>
+          <tr>
+          <td colspan="2">Shipping Price:</td>
+          <td align="right"> $${order.shippingPrice.toFixed(2)}</td>
+          </tr>
+          <tr>
+          <td colspan="2"><strong>Total Price:</strong></td>
+          <td align="right"><strong> $${order.totalPrice.toFixed(2)}</strong></td>
+          </tr>
+          <tr>
+          <td colspan="2">Payment Method:</td>
+          <td align="right">${order.paymentMethod}</td>
+          </tr>
+          </table>
+          <h2>Shipping address</h2>
+          <p>
+          ${order.shippingAddress.fullName},<br/>
+          ${order.shippingAddress.address},<br/>
+          ${order.shippingAddress.city},<br/>
+          ${order.shippingAddress.country},<br/>
+          ${order.shippingAddress.postalCode}<br/>
+          </p>
+          <hr/>
+          <p>
+          Thanks for shopping with us.
+          </p>
+          `
+      });
+
         toast.success("Order is paid");
       } catch (err) {
         dispatch({ type: "PAY_FAIL", payload: getError(err) });
@@ -111,10 +282,18 @@ const OrderScreen = () => {
       return navigate("/signin");
     }
 
-    if (!order._id || successPay || (order._id && order._id !== orderId)) {
+    if (
+      !order._id ||
+      successPay ||
+      successDeliver ||
+      (order._id && order._id !== orderId)
+    ) {
       fetchOrder();
       if (successPay) {
         dispatch({ type: "PAY_RESET" });
+      }
+      if (successDeliver) {
+        dispatch({ type: "DELIVER_RESET" });
       }
     } else {
       const loadPaypalScript = async () => {
@@ -132,7 +311,15 @@ const OrderScreen = () => {
       };
       loadPaypalScript();
     }
-  }, [order, userInfo, orderId, navigate, paypalDispatch, successPay]);
+  }, [
+    order,
+    userInfo,
+    orderId,
+    navigate,
+    paypalDispatch,
+    successPay,
+    successDeliver,
+  ]);
 
   return loading ? (
     <LoadingBox></LoadingBox>
@@ -144,7 +331,7 @@ const OrderScreen = () => {
         <title>Order {orderId}</title>
       </Helmet>
       <h1 className="my-3">Order {orderId}</h1>
-      <ToastContainer position='top-center' limit={1}/>
+      <ToastContainer position="top-center" limit={5} />
 
       <Row>
         <Col md={8}>
@@ -243,7 +430,7 @@ const OrderScreen = () => {
                     </Col>
                   </Row>
                 </ListGroup.Item>
-                {!order.isPaid && (
+                {!userInfo.isAdmin && !order.isPaid && (
                   <ListGroup.Item>
                     {isPending ? (
                       <LoadingBox />
@@ -256,9 +443,18 @@ const OrderScreen = () => {
                         ></PayPalButtons>
                         <Googlepay />
                       </div>
-                      
                     )}
                     {loadingPay && <LoadingBox />}
+                  </ListGroup.Item>
+                )}
+                {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                  <ListGroup.Item>
+                    {loadingDeliver && <LoadingBox></LoadingBox>}
+                    <div className="d-grid">
+                      <Button type="button" onClick={deliverOrderHandler}>
+                        Deliver Order
+                      </Button>
+                    </div>
                   </ListGroup.Item>
                 )}
               </ListGroup>

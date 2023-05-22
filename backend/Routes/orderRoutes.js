@@ -1,6 +1,7 @@
 import express from "express";
 import Order from "../Models/orderModel.js";
 import { isAuth, isAdmin } from "../utils.js";
+import User from '../Models/UserModel.js';
 
 const orderRouter = express.Router();
 
@@ -20,7 +21,6 @@ orderRouter.post("/", isAuth, async (req, res) => {
   const order = await newOrder.save();
   res.status(201).send({ message: "New Order Created", order });
 });
-
 
 //בקשה מהאדמין לקבלת כל ההזמנות
 orderRouter.get("/", isAuth, isAdmin, async (req, res) => {
@@ -56,6 +56,20 @@ orderRouter.put("/:id/pay", isAuth, async (req, res) => {
 
     const updatedOrder = await order.save();
     res.send({ message: "Order Paid", order: updatedOrder });
+  } else {
+    res.status(404).send({ message: "Order Not Found" });
+  }
+});
+
+orderRouter.put("/:id/deliver", isAuth, async (req, res) => {
+  const order = await Order.findById(req.params.id);
+  if (order) {
+    order.isDelivered = true;
+    order.deliveredAt = Date.now();
+    await order.save();
+
+    const user = await User.findById(order.user);
+    res.send({ message: "Order Delivered", data: user });
   } else {
     res.status(404).send({ message: "Order Not Found" });
   }
