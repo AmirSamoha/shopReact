@@ -163,7 +163,7 @@ const ProductEditScreen = () => {
         <title>Edit Product {productId}</title>
       </Helmet>
       <h1>Edit Product {name}</h1>
-      <ToastContainer position="top-left" limit={1} />
+      <ToastContainer position="top-center" limit={1} />
 
       {loading ? (
         <LoadingBox></LoadingBox>

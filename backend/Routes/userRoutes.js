@@ -1,7 +1,7 @@
 import express from "express";
 import bcrypt from "bcryptjs";
 import User from "../Models/UserModel.js";
-import { isAuth,isAdmin, generateToken } from "../utils.js";
+import { isAuth, isAdmin, generateToken } from "../utils.js";
 
 const userRouter = express.Router();
 
@@ -10,6 +10,48 @@ userRouter.get("/", isAuth, isAdmin, async (req, res) => {
   res.send(users);
 });
 
+//בקשה להציג מתשתמש ספציפי בקומפנוננטה של עריכת משתמשים של האדמין
+userRouter.get("/:id", isAuth, isAdmin, async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (user) {
+    res.send(user);
+  } else {
+    res.status(404).send({ message: "User Not Found" });
+  }
+});
+
+//בקשה לעדכון משתמש על ידי האדמין
+userRouter.put("/:id", isAuth, isAdmin, async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (user) {
+    user.firstName = req.body.firstName || user.firstName;
+    user.lastName = req.body.lastName || user.lastName;
+    user.username = req.body.username || user.username;
+    user.email = req.body.email || user.email;
+    user.isAdmin = Boolean(req.body.isAdmin);
+    const updatedUser = await user.save();
+    res.send({ message: "User Updated", user: updatedUser });
+  } else {
+    res.status(404).send({ message: "User Not Found" });
+  }
+});
+
+//בקשה למחיקת משתמש על ידי האדמין
+userRouter.delete("/:id", isAuth, isAdmin, async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (user) {
+    if (user.email === "admin@example.com" || user.isAdmin) { //נוודא שלא ניתן יהיה למחוק משתמש שהוא אדמין
+      res.status(400).send({ message: "Can Not Delete Admin User" });
+      return;
+    }
+    await user.deleteOne();
+    res.send({ message: "User Deleted" });
+  } else {
+    res.status(404).send({ message: "User Not Found" });
+  }
+});
+ 
+//בקשה לכניסה למשתמש שכבר רשום
 userRouter.post("/signin", async (req, res) => {
   const user = await User.findOne({ email: req.body.email }); //נגיד אם יש משתמש על פי האימייל שלו
   if (user) {
@@ -128,11 +170,9 @@ userRouter.put("/reset-password", async (req, res) => {
   console.log(match);
 
   if (match) {
-    res
-      .status(400)
-      .send({
-        message: "You cannot use your old password as the new password.",
-      });
+    res.status(400).send({
+      message: "You cannot use your old password as the new password.",
+    });
   } else {
     user.password = await bcrypt.hash(req.body.password, 6); // נשמור את הסיסמא החדשה במשתנה מהמסד נתונים
     const updateUserPassword = await user.save();
