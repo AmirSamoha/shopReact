@@ -51,8 +51,7 @@ const UserEditScreen = () => {
     e.preventDefault();
     try {
       dispatch({ type: "UPDATE_REQUEST" });
-      await axios.put(
-        `/api/users/${userId}`,
+      await axios.put(`/api/users/${userId}`,
         { _id: userId, username, firstName, lastName, email, isAdmin },
         {
           headers: { Authorization: `Bearer ${userInfo.token}` },

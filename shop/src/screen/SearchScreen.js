@@ -1,7 +1,6 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer} from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
 import { getError } from "../utilsFront";
 import { Helmet } from "react-helmet-async";
 import {Row, Col, Button} from "react-bootstrap";
@@ -99,18 +98,7 @@ const SearchScreen  = () => {
     fetchData();
   }, [category, error, order, page, price, query, rating]);
 
-  const [categories, setCategories] = useState([]);
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const { data } = await axios.get(`/api/products/categories`);
-        setCategories(data);
-      } catch (err) {
-        toast.error(getError(err));
-      }
-    };
-    fetchCategories();
-  }, [dispatch]);
+
 
   const getFilterUrl = (filter) => { //כל פילטור שאני ילחץ ישפיע על הנתיב לפי הקטגוריה או הערך שלו
     const filterPage = filter.page || page;
@@ -126,7 +114,6 @@ const SearchScreen  = () => {
       <Helmet>
         <title>Search Products</title>
       </Helmet>
-      <ToastContainer position='top-center' limit={1}/>
       <Row>
         <Col md={12}>
           {loading ? (
