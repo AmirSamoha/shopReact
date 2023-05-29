@@ -114,17 +114,11 @@ main {
 @media (max-width: 768px) {
   /* Adjust the layout */
   .checkout-steps {
-    width: 500px;
+    width: 400px;
     margin: 0 auto;
   }
 }
-@media (max-width: 1200px) {
-  /* Adjust the layout */
-  .checkout-steps {
-    width: 1000px;
-    margin: 0 auto;
-  }
-}
+
 
 .checkout-steps > div {
   /* when the step in display */
