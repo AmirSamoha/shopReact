@@ -28,6 +28,13 @@ h1 {
   background-color: rgb(242, 239, 235);
 }
 
+@media (min-width: 768px) {
+  /* Adjust the layout */
+  .large-container {
+    width: 960px;
+    margin: 0 auto;
+  }
+}
 .link {
   font-weight: bold;
   text-decoration: none;

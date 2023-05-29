@@ -160,12 +160,11 @@ userRouter.put("/profile", isAuth, async (req, res) => {
 // });
 
 //  בקשה לאיפוס סיסמא שמהמשתמש לא מחובר + לא יהיה ניתן להשתמש באותה סיסמא
-
 userRouter.put("/reset-password", async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
-  console.log(user);
-  console.log(req.body.password);
-  console.log(user.password);
+  // console.log(user);
+  // console.log(req.body.password);
+  // console.log(user.password);
   const match = await bcrypt.compare(req.body.password, user.password);
   console.log(match);
 

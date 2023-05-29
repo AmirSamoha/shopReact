@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useContext, useEffect, useReducer } from "react";
 import axios from "axios";
 import { Col, Row } from "react-bootstrap";
 import  Products  from "../components/Products";
@@ -6,6 +6,7 @@ import { Helmet } from "react-helmet-async";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { getError } from "../utilsFront";
+import { Store } from "../Store";
 
 
 
@@ -24,8 +25,8 @@ const reducer = (state, action) => {
 };
 
 function HomeScreen() {
-  //state
-  // const [products, setProduct] = useState([]);
+  const { state } = useContext(Store);
+  const { userInfo } = state;
 
   //reducer
   const [{ products, loading, error }, dispatch] = useReducer(reducer, {
