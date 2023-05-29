@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, ListGroup } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
 import { Store } from "../Store";
 import { useNavigate } from "react-router-dom";
@@ -48,7 +48,6 @@ const ShippingAddressScreen = () => {
 
       <div className="large-container ">
         <h1 className="mb-4"> Shipping adress </h1>
-
         <form onSubmit={submitHendler}>
           <Form.Group className="form-group " controlId="fullName">
             <Form.Label>Full Name:</Form.Label>
@@ -97,6 +96,7 @@ const ShippingAddressScreen = () => {
             </Button>
           </div>
         </form>
+      
       </div>
     </div>
   );

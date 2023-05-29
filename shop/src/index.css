@@ -28,13 +28,6 @@ h1 {
   background-color: rgb(242, 239, 235);
 }
 
-@media (min-width: 768px) {
-  /* Adjust the layout */
-  .large-container {
-    width: 960px;
-    margin: 0 auto;
-  }
-}
 .link {
   font-weight: bold;
   text-decoration: none;
@@ -117,6 +110,13 @@ main {
 
 .checkout-steps {
   width: 1300px;
+}
+@media (max-width: 768px) {
+  /* Adjust the layout */
+  .checkout-steps {
+    width: 500px;
+    margin: 0 auto;
+  }
 }
 
 .checkout-steps > div {
