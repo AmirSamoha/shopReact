@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
 }
 
 code {
@@ -111,14 +112,24 @@ main {
 .checkout-steps {
   width: 1300px;
 }
-@media (max-width: 768px) {
-  /* Adjust the layout */
+@media (width < 1400px) {
+  .container {
+    width: 100%;
+  }
   .checkout-steps {
-    width: 400px;
+    width: 100%;
     margin: 0 auto;
+  }
+  .large-container {
+    width: 100%;
   }
 }
 
+@media (width < 530px) {
+  .form-group {
+  width: 100%;
+  }
+}
 
 .checkout-steps > div {
   /* when the step in display */
@@ -132,9 +143,11 @@ main {
 }
 
 .form-group {
+  display: flex;
+  flex-direction: column;
   padding: 5px;
   justify-content: center;
-  width: 25rem;
+  /* width: 25rem; */
 }
 
 .form-group label {
