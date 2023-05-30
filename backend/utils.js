@@ -15,7 +15,7 @@ export const generateToken = (user) => {
     },
     process.env.JWT_SECRET,
     {
-      expiresIn: "5sec",
+      expiresIn: "24hr",
     }
   );
 };
@@ -29,7 +29,7 @@ export const isAuth = (req, res, next) => {
     jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {
       // נוודא שהטוקן שקיבלתי נכון וקיים
       if (err) {
-        res.status(401).send({ message: "Invalid Token" });
+        res.status(401).send({ message: "Timed out please log in again" });
       } else {
         req.user = decode;
         next();

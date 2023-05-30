@@ -112,6 +112,17 @@ main {
 .checkout-steps {
   width: 1300px;
 }
+@media (width > 1400px) {
+  .large-container {
+      width: 80%;
+  }
+  .form-group {
+    width: 50%;
+    }
+
+}
+
+
 @media (width < 1400px) {
   .container {
     width: 100%;
