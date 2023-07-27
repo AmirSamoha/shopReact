@@ -69,7 +69,7 @@ const ResetpasswordScreen = () => {
   //   // }
   // };
 
-  //ניסוי
+  
   const sendCode = async (e) => {
     //  לוודא שהמתתמש קיים במערכת לשלוח את המייל בפוסט
     e.preventDefault();

@@ -32,16 +32,16 @@ const reducer = (state, action) => {
   switch (action.type) {
     case "CART_ADD_ITEM":
       const newItem = action.payload; //אובייקט חדש בתוספת ה quantity: quantity בדף ProductScreen
-      console.log(newItem);
+      //console.log(newItem);
       const existItem = state.cart.cartItems.find(
         (item) => item._id === newItem._id
       );
-      console.log(existItem);
+      //console.log(existItem);
       const cartItems = existItem ? 
       state.cart.cartItems.map((item) => item._id === existItem._id ? newItem : item) : 
       [...state.cart.cartItems, newItem];
       
-      console.log(cartItems);
+    //  console.log(cartItems);
       localStorage.setItem("cartItems", JSON.stringify(cartItems));
       return { ...state, cart: { ...state.cart, cartItems } };
 
